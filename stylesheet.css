@@ -15,6 +15,5 @@ body {
 h1 {
   font-color: #ffffff;
   font-weight: bold;
-  display: block;
-  margin: auto;
+  text-align: center;
 }
