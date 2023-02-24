@@ -2,6 +2,19 @@ body {
   background-color: #36393f;
 }
 
+header {
+  display: block;
+  margin: auto;
+  background-color: #202225;
+}
+
+h1 {
+  font-color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+}
+
+
 .symbol {
   font-color: #ffffff;
   font-size: 500%;
@@ -10,15 +23,4 @@ body {
 
 .symbol:hover {
   font-color: #b9bbbe;
-}
-
-header {
-  display: block;
-  margin: auto;
-}
-
-h1 {
-  font-color: #ffffff;
-  font-weight: bold;
-  text-align: center;
 }
