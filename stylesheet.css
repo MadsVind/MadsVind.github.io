@@ -8,5 +8,8 @@ body {
 }
 
 h1 {
-   font-weight: bold;
+  display: block;
+  margin: auto;
+  font-color: #ffffff;
+  font-weight: bold;
 }
