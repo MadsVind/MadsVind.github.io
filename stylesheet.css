@@ -12,6 +12,11 @@ body {
   font-color: #b9bbbe;
 }
 
+header {
+  display: block;
+  margin: auto;
+}
+
 h1 {
   font-color: #ffffff;
   font-weight: bold;
