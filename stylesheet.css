@@ -3,8 +3,13 @@ body {
 }
 
 .symbol {
+  font-color: #ffffff;
   font-size: 500%;
   font-decoration: none;
+}
+
+.symbol:hover {
+  font-color: #b9bbbe;
 }
 
 h1 {
