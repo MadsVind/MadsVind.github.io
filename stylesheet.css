@@ -15,14 +15,11 @@ h1 {
   text-align: center;
 }
 
-.txt {
-  font-weight: bold;
-  text-align: center;
-}
-
 .symbol {
   display: inline-block;
 
+  font-weight: bold;
+  text-align: center;
   /*position*/
   position: relative;
   left: 50px;
