@@ -1,31 +1,131 @@
 <!DOCTYPE html>
-<html lang="en-US">
-  	<head>
-    		<meta charset="utf-8" />
-    		<title>Website of MadsVind</title>
-		<link rel="stylesheet" href="stylesheet.css" />
-		<script src="script.js"></script>
-    		<meta property="og:image"
-  		  		content="https://avatars.githubusercontent.com/u/73589644?s=40&amp;v=4" />
-	  	<meta property="og:description"
-  		  		content="Website of MadsVind, you will find projects of Mads and his favourite media" />
-  	</head>		
-  	<body>
-		
-		<header>
-  			<h1 class="txt">Mads<i>Vind</i></h1>
-		</header>
-		<main class="grid-container">
-			<a href="https://github.com/MadsVind" title="Github link to MadsVind" class="symbol" >
-	        	<img src="https://avatars.githubusercontent.com/u/73589644?s=40&amp;v=4"
-			     alt="@MadsVind" 	 
-			     data-view-component="true" 
-			     class="avatar avatar-small circle"> 
-			</a>
-            
-			<a class="symbol" href="email-form.html" title="Contact me">
-				@
-			</a>
-		</main>
-  	</body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mads Vind Knudsen - CV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        section {
+            margin: 20px 0;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+        }
+        .contact-info, .skills ul {
+            list-style: none;
+            padding: 0;
+        }
+        .skills ul {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .skills ul li {
+            background: #f4f4f4;
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        a {
+            color: #333;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mads Vind Knudsen</h1>
+            <p>Data Science Student</p>
+        </header>
+        <section>
+            <h2>About Me</h2>
+            <p>I am a dedicated data science student currently in my fourth semester at Aalborg University. With a strong foundation in programming and a passion for solving complex problems, I am eager to contribute to innovative projects in the field of data science.</p>
+        </section>
+        <section>
+            <h2>Contact Information</h2>
+            <ul class="contact-info">
+                <li>Email: example@example.com</li>
+                <li>Phone: (123) 456-7890</li>
+                <li>LinkedIn: <a href="https://www.linkedin.com/in/example" target="_blank">linkedin.com/in/example</a></li>
+                <li>GitHub: <a href="https://github.com/example" target="_blank">github.com/example</a></li>
+            </ul>
+        </section>
+        <section>
+            <h2>Education</h2>
+            <p><strong>Bachelor of Science in Data Science</strong><br>Aalborg University</p>
+            <p>Achieved a grade of 12 in Object Oriented Analysis and Design and Object Oriented Programming courses, and a grade of 10 in the Java project and Database courses.</p>
+        </section>
+        <section>
+            <h2>Work Experience</h2>
+            <p><strong>Fast Food Worker</strong><br>Legoland, Summer 2023</p>
+            <ul>
+                <li>Provided excellent customer service in a fast-paced environment.</li>
+                <li>Handled food preparation and cashier duties efficiently.</li>
+            </ul>
+            <p><strong>Dish Washer</strong><br>Local Pub (Kro), 2021-2022</p>
+            <ul>
+                <li>Maintained cleanliness and organization in the kitchen.</li>
+                <li>Assisted with basic food preparation and kitchen tasks.</li>
+            </ul>
+            <p><strong>Factory Cleaner ("Feje Dreng")</strong><br>Previous Factory Job</p>
+            <ul>
+                <li>Ensured a clean and safe working environment in the factory.</li>
+                <li>Performed various maintenance tasks as needed.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Skills</h2>
+            <div class="skills">
+                <ul>
+                    <li>Python</li>
+                    <li>Java</li>
+                    <li>C++</li>
+                    <li>SQL</li>
+                    <li>Machine Learning</li>
+                    <li>Data Analysis</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h2>Projects</h2>
+            <p><strong>Task Management System for ZRep</strong></p>
+            <ul>
+                <li>Developed an internal task management system for a mobile repair shop.</li>
+                <li>Technologies used: Java</li>
+            </ul>
+            <p><strong>Interpreted Programming Language</strong></p>
+            <ul>
+                <li>Created a programming language inspired by Python, with extended syntax for handling CSV files and preparing datasets for machine learning.</li>
+                <li>Technologies used: C++</li>
+            </ul>
+        </section>
+    </div>
+</body>
 </html>
