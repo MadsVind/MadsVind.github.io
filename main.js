@@ -12,7 +12,7 @@ document.getElementById('execute').addEventListener('click', async function() {
 });
 
 window.onload = function() {
-    document.getElementById('code').innerText = 
+    document.getElementById('code').value = 
     '# Uses simple python syntax.' + '\n' +
     '# Below is example of table operations' + '\n' +
     '# Replaces missing values in area column with the product of width and height' + '\n' +
