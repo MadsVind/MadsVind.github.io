@@ -11,6 +11,17 @@ document.getElementById('execute').addEventListener('click', async function() {
     window.runCode();
 });
 
+window.onload = function() {
+    document.getElementById('code').innerText = 
+    '# Uses simple python syntax.' + '\n' +
+    '# Below is example of table operations' + '\n' +
+    '# Replaces missing values in area column with the product of width and height' + '\n' +
+    't1 = { "width": [1, 2, 3], "height": [4, 5, 6], "area": [None, 10, None] }' + '\n' +
+    't2 = t1[$"area"][==None]' + '\n' +
+    't2[$"area"] = t2[$"width"] * t2[$"height"]'    + '\n' +
+    't3 = t1[$"area"][==None][$"area"]' + '\n' + 
+    'print(t2)' + '\n';
+}
 
 let output = [];
 let captureOutput = false;
@@ -28,8 +39,6 @@ console.log = function(text) {
 const script = document.createElement('script');
 script.src = 'dpli.js';
 script.onload = function() {
-   
-
     Module.onRuntimeInitialized = async _ => {
         // The Module object is provided by dpli.js and contains the WebAssembly functions
         let main = Module.cwrap('main', 'number', ['number', 'number']);
