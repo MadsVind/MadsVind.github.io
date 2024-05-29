@@ -8,7 +8,8 @@ document.getElementById('closePopup').addEventListener('click', function() {
 });
 
 document.getElementById('execute').addEventListener('click', async function() {
-    window.runCode();
+    console.log('Executing code...');
+    runCode();
 });
 
 
