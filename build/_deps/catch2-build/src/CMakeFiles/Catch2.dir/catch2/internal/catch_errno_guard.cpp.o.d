@@ -1,0 +1,31 @@
+_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_errno_guard.cpp.o: \
+  /home/vind/dpl/build/_deps/catch2-src/src/catch2/internal/catch_errno_guard.cpp \
+  /home/vind/dpl/build/_deps/catch2-src/src/catch2/../catch2/internal/catch_errno_guard.hpp \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/cerrno \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__assert \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__assertion_handler \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__config \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__config_site \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__verbose_abort \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/__availability \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/errno.h \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/errno.h \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/features.h \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/bits/errno.h \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/wasi/api.h \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stddef.h \
+  /home/vind/dpl/emsdk/upstream/lib/clang/19/include/stddef.h \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/stddef.h \
+  /home/vind/dpl/emsdk/upstream/lib/clang/19/include/__stddef_header_macro.h \
+  /home/vind/dpl/emsdk/upstream/lib/clang/19/include/__stddef_ptrdiff_t.h \
+  /home/vind/dpl/emsdk/upstream/lib/clang/19/include/__stddef_size_t.h \
+  /home/vind/dpl/emsdk/upstream/lib/clang/19/include/__stddef_wchar_t.h \
+  /home/vind/dpl/emsdk/upstream/lib/clang/19/include/__stddef_null.h \
+  /home/vind/dpl/emsdk/upstream/lib/clang/19/include/__stddef_nullptr_t.h \
+  /home/vind/dpl/emsdk/upstream/lib/clang/19/include/__stddef_max_align_t.h \
+  /home/vind/dpl/emsdk/upstream/lib/clang/19/include/__stddef_offsetof.h \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1/stdint.h \
+  /home/vind/dpl/emsdk/upstream/lib/clang/19/include/stdint.h \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/stdint.h \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/bits/alltypes.h \
+  /home/vind/dpl/emsdk/upstream/emscripten/cache/sysroot/include/bits/stdint.h

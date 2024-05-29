@@ -1,0 +1,112 @@
+[
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/Evaluator.cpp.o -c /home/vind/dpl/src/Evaluator.cpp",
+  "file": "/home/vind/dpl/src/Evaluator.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ProcedureTable.cpp.o -c /home/vind/dpl/src/ProcedureTable.cpp",
+  "file": "/home/vind/dpl/src/ProcedureTable.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/StandardLibrary.cpp.o -c /home/vind/dpl/src/StandardLibrary.cpp",
+  "file": "/home/vind/dpl/src/StandardLibrary.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/Value.cpp.o -c /home/vind/dpl/src/Value.cpp",
+  "file": "/home/vind/dpl/src/Value.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/VariableTable.cpp.o -c /home/vind/dpl/src/VariableTable.cpp",
+  "file": "/home/vind/dpl/src/VariableTable.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/AstBuilder.cpp.o -c /home/vind/dpl/src/ast/AstBuilder.cpp",
+  "file": "/home/vind/dpl/src/ast/AstBuilder.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/AstVisitor.cpp.o -c /home/vind/dpl/src/ast/AstVisitor.cpp",
+  "file": "/home/vind/dpl/src/ast/AstVisitor.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/IfNode.cpp.o -c /home/vind/dpl/src/ast/nodes/IfNode.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/IfNode.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/IndexNode.cpp.o -c /home/vind/dpl/src/ast/nodes/IndexNode.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/IndexNode.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/LeafNode.cpp.o -c /home/vind/dpl/src/ast/nodes/LeafNode.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/LeafNode.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/ProcCallNode.cpp.o -c /home/vind/dpl/src/ast/nodes/ProcCallNode.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/ProcCallNode.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/ProcDecNode.cpp.o -c /home/vind/dpl/src/ast/nodes/ProcDecNode.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/ProcDecNode.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/WhileNode.cpp.o -c /home/vind/dpl/src/ast/nodes/WhileNode.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/WhileNode.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/abstract/AstNode.cpp.o -c /home/vind/dpl/src/ast/nodes/abstract/AstNode.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/abstract/AstNode.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/abstract/BinaryNode.cpp.o -c /home/vind/dpl/src/ast/nodes/abstract/BinaryNode.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/abstract/BinaryNode.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/abstract/ChildNode.cpp.o -c /home/vind/dpl/src/ast/nodes/abstract/ChildNode.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/abstract/ChildNode.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/abstract/ChildNodeList.cpp.o -c /home/vind/dpl/src/ast/nodes/abstract/ChildNodeList.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/abstract/ChildNodeList.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/abstract/UnaryNode.cpp.o -c /home/vind/dpl/src/ast/nodes/abstract/UnaryNode.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/abstract/UnaryNode.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/src/ast/nodes/abstract/UnaryNodeList.cpp.o -c /home/vind/dpl/src/ast/nodes/abstract/UnaryNodeList.cpp",
+  "file": "/home/vind/dpl/src/ast/nodes/abstract/UnaryNodeList.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/antlr4cpp_generated_src/DplLexer/grammar/DplLexer.cpp.o -c /home/vind/dpl/build/antlr4cpp_generated_src/DplLexer/grammar/DplLexer.cpp",
+  "file": "/home/vind/dpl/build/antlr4cpp_generated_src/DplLexer/grammar/DplLexer.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpllib.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpllib.dir/antlr4cpp_generated_src/DplParser/grammar/DplParser.cpp.o -c /home/vind/dpl/build/antlr4cpp_generated_src/DplParser/grammar/DplParser.cpp",
+  "file": "/home/vind/dpl/build/antlr4cpp_generated_src/DplParser/grammar/DplParser.cpp"
+},
+{
+  "directory": "/home/vind/dpl/build",
+  "command": "/home/vind/dpl/emsdk/upstream/emscripten/em++ -DANTLR4CPP_STATIC @CMakeFiles/dpli.dir/includes_CXX.rsp  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g -std=gnu++17 -o CMakeFiles/dpli.dir/Main.cpp.o -c /home/vind/dpl/Main.cpp",
+  "file": "/home/vind/dpl/Main.cpp"
+}
+]

@@ -1,0 +1,1 @@
+/home/vind/dpl/emsdk/upstream/emscripten/em++  -Wall -Wextra -s DISABLE_EXCEPTION_CATCHING=0 -s ALLOW_MEMORY_GROWTH=1 -g --bind -s WASM=1 -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]' @CMakeFiles/dpli.dir/objects1.rsp -o dpli.js @CMakeFiles/dpli.dir/linklibs.rsp

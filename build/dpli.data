@@ -1,0 +1,316 @@
+i = 0
+
+while True: 
+    i = i + 1
+    
+    if i == 10: 
+        break
+    
+    print("Loop until break!")
+i = 0
+
+while i < 10:
+    i = i + 1
+
+    if i % 2 == 0:
+        continue
+    
+    print(i)
+# Euclidean algorithm in DPL
+def gcd(a, b):
+    if b == 0:
+        return a
+    return gcd(b, a % b)
+
+print(gcd(10, 15))
+print("\Hello World")t1 = { "width": [1, 2, 3], "height": [4, 5, 6], "area": [None, 10,   None]}
+t2 = {}
+t3 = { "test": []}
+
+if 1:
+    print("int_works 1")
+else:
+    print("int_doesnt_works 1")
+
+if 0:
+    print("int_doesnt_works 2")
+else:
+    print("int_works 2")
+
+if 1.0:
+    print("float_works 1")
+else:
+    print("float_doesnt_works 1")
+
+if 0.0:
+    print("float_doesnt_works 2")
+else:
+    print("float_works 2")
+
+if True:
+    print("bool_works 1")
+else:
+    print("bool_doesnt_works 1")
+
+if False:
+    print("bool_doesnt_works 2")
+else:
+    print("bool_works 2")
+    
+if "False":
+    print("str_works 1")
+else:
+    print("str_doesnt_works 1")
+
+if "":
+    print("str_doesnt_works 2")
+else:
+    print("str_works 2")
+    
+if [1, 2]:
+    print("list_works 1")
+else:
+    print("list_doesnt_works 1")
+
+if []:
+    print("list_doesnt_works 2")
+else:
+    print("list_works 2")
+
+if t1[$"width"]:
+    print("column_works 1")
+else:
+    print("column_doesnt_works 1")
+
+if t3[$"test"]:
+    print("column_doesnt_works 2")
+else:
+    print("column_works 2")
+
+if t1:
+    print("table_works 1")
+else:
+    print("table_doesnt_works 1")
+
+if t2:
+    print("table_doesnt_works 2")
+else:
+    print("table_works 2")x = 2**3
+y = 2 * 3
+z = 10 / 2
+i = 10 % 2
+
+print(x) # => 8
+print(y) # => 6
+print(z) # => 5
+print(i) # => 0def test(str):
+    print(str)
+    return (not -1 and not 0) != (not (+1 or 0))
+
+x = test("test")# Example quicksort implementation in DPL
+def quicksort(A, lo, hi):
+    if lo >= 0 and lo < hi:
+        p = partition(A, lo, hi)
+        quicksort(A, lo, p[0] - 1)
+        quicksort(A, p[1] + 1, hi)
+
+def partition(A, lo, hi):
+    pivot = A[floor((lo + hi) / 2)]
+
+    lt = lo
+    eq = lo
+    gt = hi
+
+    while eq <= gt:
+        if A[eq] < pivot:
+            swap(A, eq, lt)
+            lt = lt + 1
+            eq = eq + 1
+        else:
+            if A[eq] > pivot:
+                swap(A, eq, gt)
+                gt = gt - 1
+            else:
+                eq = eq + 1
+    
+    return [lt, gt]
+
+def swap(A, i, j):
+    temp = A[i]
+    A[i] = A[j]
+    A[j] = temp
+
+A = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+quicksort(A, 0, len(A) - 1)
+
+print("Sorted list: " + str(A))
+# Replaces missing values in area column with the product of width and height
+t1 = { "width": [1, 2, 3], "height": [4, 5, 6], "area": [None, 10, None] }
+t2 = t1[$"area"][==None]
+t2[$"area"] = t2[$"width"] * t2[$"height"]
+
+t3 = t1[$"area"][==None][$"area"] 
+
+print(t2)
+t1 = { "test1": [1, 2, 3], "test2": [4.0, 5.0, 6.0], "test3": ["12", "10", "11"], "test4": [True, False, False], "test5": [None, None, None]}
+l1 = [1, 2]
+
+print(type(2))
+print(type(2.2))
+print(type(True))
+print(type("str"))
+print(type(l1))
+print(type(t1[$"test1"]))
+print(type(t1))
+
+print(str(2))
+print(str(2.2))
+print(str(True))
+print(str("str"))
+print(str(l1))
+print(str(t1[$"test1"]))
+print(str(t1))
+
+print(int(2))
+print(int(2.2))
+print(int(True))
+print(int("2"))
+
+print(float(2))
+print(float(2.2))
+print(float(True))
+print(float("2"))
+
+print(len("str"))
+print(len(l1))
+print(len(t1[$"test1"]))
+print(len(t1))
+
+print(ceil(2.2))
+print(ceil(2))
+print(floor(2.2))
+print(floor(2))
+print(round(2.2))
+print(round(2))
+
+print(copy(l1))
+print(copy(t1))
+
+writeFile("string.txt", "test")
+readFile("string.txt")
+
+writeTable("table.csv", t1, ",")
+print(readTable("table.csv", ",", ["int", "float", "str", "bool", "NoneType"]))
+print(readTable("table.csv", ","))
+
+writeTable("table.csv", t1)
+print(readTable("table.csv"))# Replaces missing values in area column with the product of width and height
+t1 = { "width": [1, 2, 3], "height": [4, 5, 6], "area": [None, 10,   None]}
+t2 = { "width": [3, 4, 3], "height": [7, 8, 6], "area": [None, None, None]}
+
+t3 = t1 union t2
+
+print(t3)
+
+t4 = t1 intersection t2
+
+print(t4)
+
+print(t1[$"width"][>=2])
+print(t1[$"height"][<5])
+print(t2[$"height"][>7])
+print(t1[$"height"][<=5])
+print(t2[$"width"][!=4])t1 = { "width": [1, 2, 3], "height": [4, 5, 6], "area": [None, 10,   None]}
+t2 = {}
+t3 = { "test": []}
+
+while 1:
+    print("int_works 1")
+    break
+
+while 0:
+    print("int_doesnt_works 2")
+    break
+
+while 1.0:
+    print("float_works 1")
+    break
+
+while 0.0:
+    print("float_doesnt_works 2")
+    break
+
+while True:
+    print("bool_works 1")
+    break
+
+while False:
+    print("bool_doesnt_works 2")
+    break
+
+while "False":
+    print("str_works 1")
+    break
+
+while "":
+    print("str_doesnt_works 2")
+    break
+
+while [1, 2]:
+    print("list_works 1")
+    break
+
+while []:
+    print("list_doesnt_works 2")
+    break
+
+while t1[$"width"]:
+    print("column_works 1")
+    break
+
+while t3[$"test"]:
+    print("column_doesnt_works 2")
+    break
+
+while t1:
+    print("table_works 1")
+    break
+
+while t2:
+    print("table_doesnt_works 1")
+    breakprint("str") = 1t1 = { "test": [1, 2]}
+
+t1[$"test"] = [1]t1 = { "test": [1, 2]}
+
+t1[$"notTest"][2] = 3t1 = { "test": [1, 2]}
+
+t1[==1] = 1t1 = { "test": [1, 2]}
+
+t1[$"notTest"] = [2, 3]l1 = [1, 2]
+
+l1[$"notTest"] = [2, 3]x = 1
+
+x[2] = 2l1 = [1, 2]
+
+l1[l1] = [2, 3]l1 = [1, 2]
+
+l1[4] = 2l1 = [1, 2]
+
+l1["notTest"] = 2
+t1 = { "test": [1, 2]}
+l2 = [1, 3]
+
+t1 intersection l2t1 = { "test": [1, 2]}
+t2 = { "gest": [1, 3]}
+
+t1 intersection t2
+t1 = { "test": [1, 2]}
+t2 = { "test": [2] "test2": [3]}
+
+t1 intersection t2print("1", "2")test("str")return 1s1 = "12"
+
+s1[4] = "4"t1 = { "test": [1, 2], "test2": [1] }t1 = { 2: [1, 2]}t1 = { "test": 1}
+t1 = { "test": [1, 2]}
+l2 = [1, 3]
+
+t1 union l2
