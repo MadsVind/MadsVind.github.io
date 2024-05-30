@@ -59,3 +59,8 @@ a:hover {
     padding: 20px;
     border: 1px solid black;
 }
+#code {
+    width: 80vw;
+    height: 50vh;
+    border: 1px solid black;
+}
