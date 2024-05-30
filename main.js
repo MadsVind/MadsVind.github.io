@@ -75,7 +75,6 @@ function createEditor() {
         language: 'dpl',
         theme: 'myTheme',
     });
-
 }
 
 // Popup control
@@ -94,10 +93,7 @@ let output = [];
 let captureOutput = false;
 
 console.log = function(text) {
-    if (text === '-c, --cli    interpret from command line, default: false') {
-        captureOutput = true;
-        return;
-    }
+    if (text === '-c, --cli    interpret from command line, default: false') captureOutput = true; 
     else if (captureOutput) output.push(text);
 };
 
@@ -116,6 +112,7 @@ function createArgvPtr(argv) {
 }
 
 function handleOutput() {
+    if (output[0] === "") output.shift(); // Remove the first line
     let outputStr = output.join('\n');
     output = [];
     let outputDiv = document.getElementById('output');
