@@ -18,6 +18,30 @@ const dplLanguageDefinition = {
     }
 };
 
+const syntaxHighLightingTheme = {
+    base: 'vs-dark', // can also be 'vs' or 'hc-black'
+    inherit: true, // can also be false to completely replace the builtin rules
+    rules: [
+        { token: 'comment.line.dpl', foreground: '888888' },
+        { token: 'constant.numeric.dpl', foreground: '00ff00' },
+        { token: 'keyword.operator.dpl', foreground: 'c678dd' },
+        { token: 'string.quoted.double.dpl', foreground: 'ce9178' },
+        { token: 'keyword.reserved.dpl', foreground: 'c678dd' },
+        { token: 'keyword.control.dpl', foreground: 'c678dd' },
+        { token: 'support.function.dpl', foreground: '61aeee' },
+        { token: 'entity.name.function.dpl', foreground: '61aeee' },
+        { token: 'variable.other.dpl', foreground: '9cdcfe' },
+    ],
+    colors: {
+        'editor.foreground': '#A9B7C6',
+        'editor.background': '#282B2E',
+        'editor.selectionBackground': '#363b41',
+        'editor.lineHighlightBackground': '#323232',
+        'editorCursor.foreground': '#A9B7C6',
+        'editorWhitespace.foreground': '#3B3A32'
+    }
+};
+
 // Example code to be loaded into the editor
 const exampleCode = 
     '# Uses simple python syntax.' + '\n' +
@@ -44,29 +68,7 @@ require(['vs/editor/editor.main'], function() {
 });
 
 function createEditor() {
-    monaco.editor.defineTheme('myTheme', {
-        base: 'vs-dark', // can also be 'vs' or 'hc-black'
-        inherit: true, // can also be false to completely replace the builtin rules
-        rules: [
-            { token: 'comment.line.dpl', foreground: '888888' },
-            { token: 'constant.numeric.dpl', foreground: '00ff00' },
-            { token: 'keyword.operator.dpl', foreground: 'c678dd' },
-            { token: 'string.quoted.double.dpl', foreground: 'ce9178' },
-            { token: 'keyword.reserved.dpl', foreground: 'c678dd' },
-            { token: 'keyword.control.dpl', foreground: 'c678dd' },
-            { token: 'support.function.dpl', foreground: '61aeee' },
-            { token: 'entity.name.function.dpl', foreground: '61aeee' },
-            { token: 'variable.other.dpl', foreground: '9cdcfe' },
-        ],
-        colors: {
-            'editor.foreground': '#A9B7C6',
-            'editor.background': '#282B2E',
-            'editor.selectionBackground': '#363b41',
-            'editor.lineHighlightBackground': '#323232',
-            'editorCursor.foreground': '#A9B7C6',
-            'editorWhitespace.foreground': '#3B3A32'
-        }
-    });
+    monaco.editor.defineTheme('myTheme', syntaxHighLightingTheme);
 
     editor = monaco.editor.create(document.getElementById('code'), {
         value: exampleCode,
