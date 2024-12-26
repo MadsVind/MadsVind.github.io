@@ -50,8 +50,8 @@ const exampleCode =
     't1 = { "width": [1, 2, 3], "height": [4, 5, 6], "area": [None, 10, None] }' + '\n' +
     't2 = t1[$"area"][==None]' + '\n' +
     't2[$"area"] = t2[$"width"] * t2[$"height"]'    + '\n' +
-    't3 = t1[$"area"][==None][$"area"]' + '\n' + 
-    'print(t2)' + '\n';
+    't1[$"area"][==None][$"area"]' + '\n' + 
+    'print(t1)' + '\n';
 
 // Create the Monaco Editor
 let editor;
@@ -76,17 +76,12 @@ function createEditor() {
         theme: 'myTheme',
     });
 }
+ 
 
-// Popup control
-function openPopup() {
-    document.getElementById('popup').style.display = 'block';
+document.addEventListener('DOMContentLoaded', function() {
     if (!editor) createEditor();
     else editor.layout();
-}
-
-function closePopup() {
-    document.getElementById('popup').style.display = 'none';
-}
+});
 
 // Code execution
 let output = [];
@@ -116,12 +111,17 @@ function handleOutput() {
     let outputStr = output.join('\n');
     output = [];
     let outputDiv = document.getElementById('output');
-    outputDiv.innerText = outputStr;
+    outputDiv.innerText = (outputDiv.innerText == "") ? outputStr : outputDiv.innerText + "\n" + outputStr;
 }
 
 function freeMemory(argv, argvPtr) {
     argv.forEach(ptr => Module._free(ptr));
     Module._free(argvPtr);
+}
+
+function clearConsole() {
+    let outputDiv = document.getElementById('output');
+    outputDiv.innerText = "";
 }
 
 // Load the dpli.js file
@@ -145,10 +145,8 @@ function loadDpli() {
         }
 
         
-        // Event listeners
-        document.getElementById('openPopup').addEventListener('click', openPopup);
-        document.getElementById('closePopup').addEventListener('click', closePopup);
         document.getElementById('execute').addEventListener('click', runCode);
+        document.getElementById('clear').addEventListener('click', clearConsole);
         window.addEventListener('resize', () => editor.layout());
     };
 }

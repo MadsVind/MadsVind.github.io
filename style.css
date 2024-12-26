@@ -60,7 +60,7 @@ a:hover {
     border: 1px solid black;
 }
 #code {
-    width: 80vw;
+    width: 100%;
     height: 50vh;
     border: 1px solid black;
 }
