@@ -49,8 +49,7 @@ const exampleCode =
     '# Replaces missing values in area column with the product of width and height' + '\n' +
     't1 = { "width": [1, 2, 3], "height": [4, 5, 6], "area": [None, 10, None] }' + '\n' +
     't2 = t1[$"area"][==None]' + '\n' +
-    't2[$"area"] = t2[$"width"] * t2[$"height"]'    + '\n' +
-    't1[$"area"][==None][$"area"]' + '\n' + 
+    't2[$"area"] = t2[$"width"] * t2[$"height"]'    + '\n' + 
     'print(t1)' + '\n';
 
 // Create the Monaco Editor
