@@ -6,7 +6,10 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
     - [ ] Add input csv feature
     - [ ] Add export csv feature
 - [ ] Matrix Library
-    - [ ] Add dot product
-    - [ ] Add eigen
-    - [ ] Add inverse
-    - [ ] Add qr
+    - [X] Implement method changing
+    - [ ] Implement calculation
+    - [ ] Implement size changing
+    - [ ] Add polynomial
+    - [ ] Implement individual size change
+    - [ ] Add error console (some methods are very specific)
+- [ ] Fix file structure
