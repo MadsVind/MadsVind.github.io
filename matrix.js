@@ -54,10 +54,19 @@ class Matrix {
     }
     
     static fromHtml(htmlMatrix) {
-        const parser = new DOMParser().parseFromString(htmlMatrix, "text/html");
-        const rows = parser.querySelectorAll('.row');
-        console.log(rows[0].querySelectorAll('.square-cell')[0].value)
+        const rows = htmlMatrix.children;
+        const colAmount = rows[0].children.length;
+        const rowAmount = rows.length;
 
+        const matrix = new Matrix(colAmount, rowAmount);
+
+        for (let i = 0; i < rowAmount; ++i) {
+            const cells = rows[i].children;
+            for (let j = 0; j < colAmount; ++j) {
+                matrix.setCell(cells[j].value, i, j);
+            }
+        }
+    
         return matrix;
     }
 
@@ -196,14 +205,12 @@ class MathArea {
         const inputMatrixesAmount = this.#method.inputAmount;
         for (let i = 0; i < elements.length; ++i) {
             let element = elements[i];
-            const newMatrix = Matrix.fromHtml(element.innerHTML);
+            const newMatrix = Matrix.fromHtml(element);
             if (i < inputMatrixesAmount) this.#inputMatrixes[i] = newMatrix;
             else this.#outputMatrixes[i - inputMatrixesAmount] = newMatrix;   
         }
         
     }
-
-
 
     update(methodTitle) {
         this.updateMatrixes() // This is seemingly not working
