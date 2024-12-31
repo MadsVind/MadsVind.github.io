@@ -18,8 +18,8 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
         - [ ] Add Qr
         - [ ] Add Plu
         - [ ] Add polynomial
-    - [ ] Reset result on method change
-    - [ ] Implement clear
+    - [X] Reset result on method change
+    - [X] Implement clear
     - [ ] Implement size changing
     #### --Least Viable Product--
     - [ ] Implement individual size change

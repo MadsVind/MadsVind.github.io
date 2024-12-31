@@ -19,7 +19,6 @@ class Matrix {
                     +    `\nSplitter: ${splitter}`)
     }
 
-
     static fromString(matrixStr, splitter) {
         const rows = matrixStr.trim().split(splitter).map(
             row => row.split(' ').map(Number)
@@ -110,6 +109,14 @@ class Matrix {
     getCell(row, col) {
         return this.#matrix[row][col];
     }
+
+    get rows() {
+        return this.#rows;
+    }
+
+    get columns() {
+        return this.#columns;
+    }
 }
 // Could add check for matching col row for dot and matching size for add and subtract...
 // But i have been doing enough over engineering.
@@ -133,9 +140,11 @@ class Method {
     get title() {
         return this.#title;
     }
+
     static updateActive(methodTitle) {
         if (Method.#activeMethod != undefined)
             document.getElementById("nav-" + Method.#activeMethod.title).classList.toggle('active');
+
         Method.#activeMethod = this.getMethodByTitle(methodTitle);
         document.getElementById("nav-" + methodTitle).classList.toggle('active');
     }
@@ -184,7 +193,6 @@ class Method {
                                      + `${elementEnd}`; 
         }
     }
-
 }
 
 class MathArea {
@@ -208,12 +216,18 @@ class MathArea {
         const elements = document.querySelectorAll('.matrix-container');
         const inputMatrixesAmount = this.#method.inputAmount;
         for (let i = 0; i < elements.length; ++i) {
-            let element = elements[i];
-            const newMatrix = Matrix.fromHtml(element);
-            if (i < inputMatrixesAmount) this.#inputMatrixes[i] = newMatrix;
-            else this.#outputMatrixes[i - inputMatrixesAmount] = newMatrix;   
+            if (i < inputMatrixesAmount) {
+                let element = elements[i];
+                const newMatrix = Matrix.fromHtml(element);
+                this.#inputMatrixes[i] = newMatrix;
+            }
+            else {
+                const tempMatrix = this.#inputMatrixes[0];
+                const row = tempMatrix.rows;
+                const column = tempMatrix.columns;
+                this.#outputMatrixes[i - inputMatrixesAmount] = new Matrix(row, column);
+            }
         }
-        
     }
 
     update(methodTitle) {
@@ -221,23 +235,28 @@ class MathArea {
         
         this.#method = Method.getMethodByTitle(methodTitle);
 
-        this.#inputMatrixes = this.#fillMatrixes(this.#inputMatrixes, this.#method.inputAmount)
-        this.#outputMatrixes = this.#fillMatrixes(this.#outputMatrixes, this.#method.outputAmount)
+        this.#inputMatrixes = this.#fillMatrixes(this.#inputMatrixes, this.#method.inputAmount);
+        this.#outputMatrixes = this.#fillMatrixes(this.#outputMatrixes, this.#method.outputAmount);
 
-        this.#setMathArea()
-        
+        this.#setMathArea();
     } 
-    
-    get inputMatrixArr() {
-        console.log("2")
-        console.log(this.#inputMatrixes)
-        return this.#inputMatrixes;
-    }
 
     calculate() {
         this.updateMatrixes();
         const matrixStrArr = this.#inputMatrixes.map(matrix => matrix.toString());
         window.runCode(this.#method.title, matrixStrArr);
+    }
+
+    clear() {
+        for (let i = 0; i < this.#inputMatrixes.length; ++i) {
+            let matrix = this.#inputMatrixes[i]
+            this.#inputMatrixes[i] = new Matrix(matrix.rows, matrix.columns);
+        }
+        for (let i = 0; i < this.#outputMatrixes.length; ++i) {
+            let matrix = this.#outputMatrixes[i]
+            this.#outputMatrixes[i] = new Matrix(matrix.rows, matrix.columns);
+        }
+        this.#setMathArea();
     }
 
     setOutput(matrixStrArr, splitter) {
