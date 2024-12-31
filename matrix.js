@@ -311,8 +311,6 @@ class MathArea {
             if (i < (outputMatrixAmount - 1)) this.#element.innerHTML += operator + '\n'
         }
     }
-
-
 }
 
 ADD         = "add";
@@ -335,7 +333,7 @@ Method.addMethod(new Method(title=INVERSE,     inputAmount=1, outputAmount=1));
 Method.addMethod(new Method(title=REF,         inputAmount=1, outputAmount=1));
 Method.addMethod(new Method(title=RREF,        inputAmount=1, outputAmount=1));
 Method.addMethod(new Method(title=QR,          inputAmount=1, outputAmount=2, operatorString="|"));
-Method.addMethod(new Method(title=PLU,         inputAmount=1, outputAmount=3, operatorString="|"));
+//Method.addMethod(new Method(title=PLU,         inputAmount=1, outputAmount=3, operatorString="|"));
 
 Method.initMethodNav()
 mathArea = new MathArea();
