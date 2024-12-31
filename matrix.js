@@ -4,14 +4,13 @@ class Matrix {
     #matrix;
 
     constructor(rows = undefined, columns = undefined, matrixStr = undefined, splitter = undefined) {
+
         if (rows != undefined && columns != undefined) {
             this.#rows = rows;
             this.#columns = columns;
             this.#matrix = Matrix.createZeroMatrix(this.#rows, this.#columns);
         } else if (matrixStr != undefined && splitter != undefined) {
-            this.#matrix = Matrix.fromString(matrixStr, splitter);
-            this.#rows = this.matrix.length;
-            this.#columns = this.matrix[0].length;
+            return Matrix.fromString(matrixStr, splitter);
         }
         else throw Error(`Either rows and columns need to be given or matrixStr and Splitter`
                     +    `\nRows: ${rows}`
@@ -25,13 +24,15 @@ class Matrix {
         const rows = matrixStr.trim().split(splitter).map(
             row => row.split(' ').map(Number)
         );
-        const rowCount = rows.length;
-        const colCount = rows[0].length;
-        const matrix = new Matrix(rowCount, colCount);
-        for (let row in rows) {
+        const matrix = new Matrix(0, 0);
+        for (let row of rows) {
             matrix.addRow(row);
         }
         return matrix;
+    }
+
+    toString(splitter = '; ') {
+        return this.#matrix.map(row => row.join(' ')).join(splitter);
     }
 
     getHtml() {
@@ -100,6 +101,9 @@ class Matrix {
     }
 
     addRow(row) {
+        if (this.#rows != 0 && row.length != this.#columns) throw Error(`Row: ${row}\nIs incompatible with matrix: ${this.#matrix}`)
+        if (this.#rows == 0) this.#columns = row.length;
+        this.#rows++; 
         this.#matrix.push(row);
     }
 
@@ -213,7 +217,7 @@ class MathArea {
     }
 
     update(methodTitle) {
-        this.updateMatrixes() // This is seemingly not working
+        this.updateMatrixes() 
         
         this.#method = Method.getMethodByTitle(methodTitle);
 
@@ -223,6 +227,25 @@ class MathArea {
         this.#setMathArea()
         
     } 
+    
+    get inputMatrixArr() {
+        console.log("2")
+        console.log(this.#inputMatrixes)
+        return this.#inputMatrixes;
+    }
+
+    calculate() {
+        this.updateMatrixes();
+        const matrixStrArr = this.#inputMatrixes.map(matrix => matrix.toString());
+        window.runCode(this.#method.title, matrixStrArr);
+    }
+
+    setOutput(matrixStrArr, splitter) {
+        for (let i = 0; i < this.#outputMatrixes.length; ++i) {
+            this.#outputMatrixes[i] = new Matrix(undefined, undefined, matrixStrArr[i], splitter);
+        }
+        this.#setMathArea();
+    }
     
     #fillMatrixes(matrixes, amount) {
         if (matrixes.length < amount) {
@@ -254,6 +277,8 @@ class MathArea {
             if (i < (outputMatrixAmount - 1)) this.#element.innerHTML += operator + '\n'
         }
     }
+
+
 }
 
 ADD         = "add";
@@ -272,11 +297,11 @@ Method.addMethod(new Method(title=ADD,         inputAmount=2, outputAmount=1, op
 Method.addMethod(new Method(title=SUBTRACT,    inputAmount=2, outputAmount=1, operatorString="-"));
 Method.addMethod(new Method(title=DOT,         inputAmount=2, outputAmount=1, operatorString="X"));
 Method.addMethod(new Method(title=DETERMINANT, inputAmount=1, outputAmount=1));
-Method.addMethod(new Method(title=INVERSE,     inputAmount=1, outputAmount=1));
-Method.addMethod(new Method(title=REF,         inputAmount=1, outputAmount=2, operatorString="|"));
-Method.addMethod(new Method(title=RREF,        inputAmount=1, outputAmount=2, operatorString="|"));
-Method.addMethod(new Method(title=QR,          inputAmount=1, outputAmount=2, operatorString="|"));
-Method.addMethod(new Method(title=PLU,         inputAmount=1, outputAmount=3, operatorString="|"));
+//Method.addMethod(new Method(title=INVERSE,     inputAmount=1, outputAmount=1));
+//Method.addMethod(new Method(title=REF,         inputAmount=1, outputAmount=2, operatorString="|"));
+//Method.addMethod(new Method(title=RREF,        inputAmount=1, outputAmount=2, operatorString="|"));
+//Method.addMethod(new Method(title=QR,          inputAmount=1, outputAmount=2, operatorString="|"));
+//Method.addMethod(new Method(title=PLU,         inputAmount=1, outputAmount=3, operatorString="|"));
 
 Method.initMethodNav()
 mathArea = new MathArea();
@@ -286,9 +311,9 @@ Method.updateActive(ADD)
 let output = [];
 var Module = {}
 
-//console.log = function(text) { 
-//    output.push(text);
-//};
+console.log = function(text) { 
+    output.push(text);
+};
 
 function createArgv(args) {
     return args.map(str => {
@@ -305,11 +330,9 @@ function createArgvPtr(argv) {
 }
 
 function handleOutput() {
-    console.log(output)
-    if (output[0] === "") output.shift(); // Remove the first line
     let outputStr = output.join('\n');
     output = [];
-    console.log(outputStr);
+    mathArea.setOutput([outputStr], " \n");
 }
 
 function freeMemory(argv, argvPtr) {
@@ -327,12 +350,8 @@ document.body.appendChild(script);
 function loadCnn() {
     Module.onRuntimeInitialized = async _ => {
         let main = Module.cwrap('main', 'number', ['number', 'number']);
-        window.runCode = async function() {
-            let method = "add";
-            let matrix1 = "1 2; 3 4"
-            let matrix2 = "5 6; 7 8"
-            // Insert getting matrices and formatting here
-            let argv = createArgv(['cnn', method, matrix1, matrix2]);
+        window.runCode = async function(method, matrixArr) {
+            let argv = createArgv(['cnn', method, ...matrixArr]);
             let argvPtr = createArgvPtr(argv);
             main(argv.length, argvPtr);
             handleOutput();
