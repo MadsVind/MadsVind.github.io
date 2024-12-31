@@ -8,7 +8,7 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
     - [ ] Add export csv feature
 - [ ] Matrix Library
     - [X] Implement method changing
-    - [/] Implement calculation
+    - [ ] Implement calculation
         - [X] Add
         - [X] Subtract
         - [X] Dot product
@@ -21,7 +21,7 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
     - [ ] Reset result on method change
     - [ ] Implement clear
     - [ ] Implement size changing
-    #### --least viable product--
+    #### --Least Viable Product--
     - [ ] Implement individual size change
     - [ ] Add error console (some methods are very specific)
     - [ ] Fix adding new methods
