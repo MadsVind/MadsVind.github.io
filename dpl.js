@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Code execution
 let output = [];
 let captureOutput = false;
+var Module = {}
 
 console.log = function(text) {
     if (text === '-c, --cli    interpret from command line, default: false') captureOutput = true; 
