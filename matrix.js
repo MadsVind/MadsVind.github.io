@@ -35,7 +35,7 @@ class Matrix {
     }
 
     getHtml() {
-        const matrixContainer = '<div class="matrix-container">';
+        const matrixContainer = '<div class="matrix-container my-3">';
         const rowStart        = '<div class="row">';
         const cellStart       = '<input class="square-cell text-center" value="';
         const rowEnd          = '</div>';
@@ -45,7 +45,7 @@ class Matrix {
         for (let i = 0; i < this.#rows; i++) {
             returnStr += `\n${rowStart}`;
             for (let j = 0; j < this.#columns; j++) {
-                returnStr += `\n${cellStart}${this.#matrix[i][j]}" id="${i}:${j}">`;
+                returnStr += `\n${cellStart}${this.#matrix[i][j]}">`;
             }
             returnStr += `\n${rowEnd}`;
         }
