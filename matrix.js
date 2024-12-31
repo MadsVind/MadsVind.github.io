@@ -53,17 +53,24 @@ class Matrix {
         return returnStr;
     }
     
-    static fromHtml(htmlMatrix) {
+    static fromHtml(htmlMatrix, rowAmount = undefined, colAmount = undefined) {
         const rows = htmlMatrix.children;
-        const colAmount = rows[0].children.length;
-        const rowAmount = rows.length;
 
-        const matrix = new Matrix(colAmount, rowAmount);
+        const htmlRowAmount = rows.length;
+        const htmlColAmount = rows[0].children.length;
+
+        if (rowAmount === undefined) rowAmount = htmlRowAmount;
+        if (colAmount === undefined) colAmount = htmlColAmount;
+
+        const matrix = new Matrix(rowAmount, colAmount);
+
 
         for (let i = 0; i < rowAmount; ++i) {
-            const cells = rows[i].children;
             for (let j = 0; j < colAmount; ++j) {
-                matrix.setCell(cells[j].value, i, j);
+                const isHtmlVal = (i < htmlRowAmount) && (j < htmlColAmount);
+                //! Would be more efficient if rows is taken out to outer loop
+                const value = (isHtmlVal) ? rows[i].children[j].value : 0;
+                matrix.setCell(value, i, j); 
             }
         }
     
@@ -89,6 +96,17 @@ class Matrix {
             }
         }
         return copy;
+    }
+
+    copyValues(matrix) {
+        const rows = Math.min(matrix.rows, this.rows);
+        const columns = Math.min(matrix.columns, this.columns);
+
+        for (let i = 0; i < rows; ++i) {
+            for (let j = 0; j < columns; ++j) {
+                this.setCell(matrix.getCell[i][j], i, j);
+            }
+        }
     }
 
     setCell(val, row, col) {
@@ -215,25 +233,22 @@ class MathArea {
     updateMatrixes() {
         const elements = document.querySelectorAll('.matrix-container');
         const inputMatrixesAmount = this.#method.inputAmount;
+        
+        const rows    = document.getElementById('row-input-1').value;
+        const columns = document.getElementById('column-input-1').value;
+
         for (let i = 0; i < elements.length; ++i) {
             if (i < inputMatrixesAmount) {
-                let element = elements[i];
-                const newMatrix = Matrix.fromHtml(element);
-                this.#inputMatrixes[i] = newMatrix;
+                this.#inputMatrixes[i] = Matrix.fromHtml(elements[i], rows, columns); 
             }
-            else {
-                const tempMatrix = this.#inputMatrixes[0];
-                const row = tempMatrix.rows;
-                const column = tempMatrix.columns;
-                this.#outputMatrixes[i - inputMatrixesAmount] = new Matrix(row, column);
-            }
+            else this.#outputMatrixes[i - inputMatrixesAmount] = new Matrix(rows, columns);
         }
     }
 
-    update(methodTitle) {
+    update(methodTitle = undefined) {
         this.updateMatrixes() 
         
-        this.#method = Method.getMethodByTitle(methodTitle);
+        if (methodTitle != undefined) this.#method = Method.getMethodByTitle(methodTitle);
 
         this.#inputMatrixes = this.#fillMatrixes(this.#inputMatrixes, this.#method.inputAmount);
         this.#outputMatrixes = this.#fillMatrixes(this.#outputMatrixes, this.#method.outputAmount);
