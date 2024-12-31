@@ -331,11 +331,11 @@ Method.addMethod(new Method(title=ADD,         inputAmount=2, outputAmount=1, op
 Method.addMethod(new Method(title=SUBTRACT,    inputAmount=2, outputAmount=1, operatorString="-"));
 Method.addMethod(new Method(title=DOT,         inputAmount=2, outputAmount=1, operatorString="X"));
 Method.addMethod(new Method(title=DETERMINANT, inputAmount=1, outputAmount=1));
-//Method.addMethod(new Method(title=INVERSE,     inputAmount=1, outputAmount=1));
-//Method.addMethod(new Method(title=REF,         inputAmount=1, outputAmount=2, operatorString="|"));
-//Method.addMethod(new Method(title=RREF,        inputAmount=1, outputAmount=2, operatorString="|"));
-//Method.addMethod(new Method(title=QR,          inputAmount=1, outputAmount=2, operatorString="|"));
-//Method.addMethod(new Method(title=PLU,         inputAmount=1, outputAmount=3, operatorString="|"));
+Method.addMethod(new Method(title=INVERSE,     inputAmount=1, outputAmount=1));
+Method.addMethod(new Method(title=REF,         inputAmount=1, outputAmount=1));
+Method.addMethod(new Method(title=RREF,        inputAmount=1, outputAmount=1));
+Method.addMethod(new Method(title=QR,          inputAmount=1, outputAmount=2, operatorString="|"));
+Method.addMethod(new Method(title=PLU,         inputAmount=1, outputAmount=3, operatorString="|"));
 
 Method.initMethodNav()
 mathArea = new MathArea();
@@ -364,9 +364,27 @@ function createArgvPtr(argv) {
 }
 
 function handleOutput() {
-    let outputStr = output.join('\n');
+    const idxArr = [0];
+    const outputStrArr = [];
+
+    idxArr.push(...indexListOfElement(output, ''))
+
+    if (idxArr.length === 1) outputStrArr.push(output.join('\n'))
+    for (let i = 0; i < idxArr.length; ++i) {
+        const start = idxArr[i] //+ (i === 1) ? 0 : 1; // -1 to get end of last matrix +1 to exclude the ' ' 
+        outputStrArr.push(output.slice(start, idxArr[i + 1]).join('\n'));
+    }
+
     output = [];
-    mathArea.setOutput([outputStr], " \n");
+    mathArea.setOutput(outputStrArr, " \n");
+}
+
+function indexListOfElement(array, element) {
+    const idxArr = [];
+    for (let i = 0; i < array.length; ++i) {
+        if (array[i] == element) idxArr.push(i);
+    }
+    return idxArr
 }
 
 function freeMemory(argv, argvPtr) {

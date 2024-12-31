@@ -1,6 +1,8 @@
 # Mads Knudsen companion site
 The Github.io is primarily meant as a companion site for my CV, and is used for illustrating some of the projects on my CV.
 
+
+
 ## TODO:
 - [ ] DPL
     - [ ] All dpl keywords in highlight
@@ -15,12 +17,12 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
         - [X] Add
         - [X] Subtract
         - [X] Dot product
-        - [X] Add Determinant
-        - [ ] Add Ref
-        - [ ] Add Rref
-        - [ ] Add Qr
-        - [ ] Add Plu
-        - [ ] Add polynomial
+        - [X] Determinant
+        - [X] Ref
+        - [X] Rref
+        - [X] Qr
+        - [X] Plu
+        - [ ] polynomial
     - [X] Reset result on method change
     - [X] Implement clear
     - [ ] Implement size changing
@@ -29,3 +31,5 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
     - [ ] Add error console (some methods are very specific)
     - [ ] Fix adding new methods
 - [ ] Fix file structure
+### Bugs
+- [ ] Matrix sizes doesn't match when changeing methods 
