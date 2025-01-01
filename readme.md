@@ -28,11 +28,14 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
     - [X] Make results uneditable
     - [ ] Implement size changing
         - [X] Implement general size changing
-        - [ ] Implement individual size change
+        - [X] Implement individual size change
+        - [ ] Make checkbox disabling indiviual sizing
+        - [ ] Make method modifer system to restrict matrix sizes
     - [ ] Add error console (some methods are very specific)
-    - [ ] Fix adding new methods
 - [ ] Fix file structure
 ### Bugs
 - [X] Matrix sizes doesn't match when changeing methods 
 - [X] Other methods doesn't work after Plu
 - [X] Doesn't reset going from Rref to Qr
+- [ ] Calculation doesn't work
+- [ ] Vector calculations incorrect

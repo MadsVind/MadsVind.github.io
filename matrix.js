@@ -216,46 +216,88 @@ class Method {
 class MathArea {
     #mathAreaId = 'math-area'
     #element = document.getElementById(this.#mathAreaId);
-    #rowAmount = 3
-    #colAmount = 3
     
     #method
     #inputMatrixes
     #outputMatrixes
     
     constructor() {
+        const start_size = 3
         this.#method  = Method.getMethodByTitle(ADD);
-        this.#inputMatrixes = [new Matrix(this.#rowAmount, this.#colAmount), new Matrix(this.#rowAmount, this.#colAmount)];
-        this.#outputMatrixes = [new Matrix(this.#rowAmount, this.#colAmount)];
+        this.#inputMatrixes = [new Matrix(start_size, start_size), new Matrix(start_size, start_size)];
+        this.#outputMatrixes = [new Matrix(start_size, start_size)];
         this.#setMathArea();
+    }
+
+    // Doesn't work without existing html Can be fixed but will probably be done in modifier patch
+    updateSizeInput() {
+        const inputArea = document.getElementById('matrix-inputs');
+        const inputAmount = this.#method.inputAmount; 
+        const oldInputAmount = inputArea.children.length
+
+        const rowArr = [ ];
+        const colArr = [ ];
+    
+        for (let i = 0; i < oldInputAmount; ++i) {
+            rowArr.push(document.getElementById(`row-input-${i+1}`).value);
+            colArr.push(document.getElementById(`column-input-${i+1}`).value);
+        }
+        
+        inputArea.innerHTML = '';
+
+        const wrapper = '<div class="matrix-input mx-3">';
+        const titleStart = '<h5>Matrix ';
+        const inputWrapper = '<div class="d-flex align-items-center mb-2">';
+        const inputTitle = '<div class="me-2" style="width: 60px;">';
+        const inputStart = '<input id="';
+        const inputEnd = 'type="number" min="1" onchange="mathArea.update()"></input>';
+        const divEnd = '</div>';
+
+        for (let i = 0; i < inputAmount; ++i) {
+            const rowValue = (i < rowArr.length) ? rowArr[i] : rowArr[0];
+            const colValue = (i < colArr.length) ? colArr[i] : colArr[0];
+
+            const inputNumb = i + 1;
+            inputArea.innerHTML += 
+                `${wrapper}${titleStart} ${(inputAmount > 1) ? inputNumb : ""}</h5>${inputWrapper}` +
+                `${inputTitle}Rows: ${divEnd}${inputStart}row-input-${inputNumb}" value="${rowValue}" ${inputEnd}${divEnd}` +
+                `${inputWrapper}`+
+                `${inputTitle}Columns: ${divEnd}${inputStart}column-input-${inputNumb}" value="${colValue}" ${inputEnd}${divEnd}` +
+                `${divEnd}`
+        }   
     }
 
     updateMatrixes() {
         const elements = document.querySelectorAll('.matrix-container');
         const inputMatrixesAmount = this.#method.inputAmount;
         
-        const rows    = this.#rowAmount;
-        const columns = this.#colAmount;
+        let maxRows = undefined    
+        let maxColumns = undefined;
 
         for (let i = 0; i < this.#inputMatrixes.length; ++i) {
-            if (i < inputMatrixesAmount) 
-                this.#inputMatrixes[i] = Matrix.fromHtml(elements[i], rows, columns); 
-            else 
-                this.#inputMatrixes[i] = new Matrix(rows, columns);
+            if (i >= inputMatrixesAmount) {
+                this.#inputMatrixes[i] = new Matrix(maxRows, maxColumns);
+                continue;
+            }
+            const rows =   document.getElementById(`row-input-${i+1}`).value;
+            const columns = document.getElementById(`column-input-${i+1}`).value;
+            if (maxRows == undefined || maxRows < rows) maxRows = rows;
+            if (maxColumns == undefined || maxColumns < columns) maxColumns = columns;
+            this.#inputMatrixes[i] = Matrix.fromHtml(elements[i], rows, columns); 
         }
 
         for (let i = 0; i < this.#outputMatrixes.length; ++i) {
-            this.#outputMatrixes[i] = new Matrix(rows, columns);
+            this.#outputMatrixes[i] = new Matrix(maxRows, maxColumns);
         }
     }
 
     update(methodTitle = undefined) {
-        this.#rowAmount = document.getElementById('row-input-1').value;
-        this.#colAmount = document.getElementById('column-input-1').value;
         this.updateMatrixes() 
         
         if (methodTitle != undefined) this.#method = Method.getMethodByTitle(methodTitle);
 
+        this.updateSizeInput()
+        
         this.#inputMatrixes = this.#fillMatrixes(this.#inputMatrixes, this.#method.inputAmount);
         this.#outputMatrixes = this.#fillMatrixes(this.#outputMatrixes, this.#method.outputAmount);
 
@@ -291,7 +333,7 @@ class MathArea {
         if (matrixes.length < amount) {
             const missingMatrices = amount - matrixes.length;
             for (let i = 0; i < missingMatrices; ++i) {
-                matrixes.push(new Matrix(this.#rowAmount, this.#colAmount))
+                matrixes.push(new Matrix(matrixes[0].rows, matrixes[0].columns));
             }
         }
         return matrixes;

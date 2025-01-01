@@ -49,14 +49,28 @@
 
         <ul id="method-nav" class="nav nav-tabs">
         </ul>
-        <div class="d-flex flex-column align-items-start my-3">
-            <div class="d-flex align-items-center mb-2">
-                <div class="me-2" style="width: 60px;">Rows: </div>
-                <input id="row-input-1" type="number" min="1" value="3" onchange="mathArea.update()">
+        <div id="matrix-inputs" class="d-flex justify-content-center my-3">
+            <div class="matrix-input mx-3">
+                <h5>Matrix 1</h5>
+                <div class="d-flex align-items-center mb-2">
+                    <div class="me-2" style="width: 60px;">Rows: </div>
+                    <input id="row-input-1" type="number" min="1" value="3" onchange="mathArea.update()">
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="me-2" style="width: 60px;">Columns: </div>
+                    <input id="column-input-1" type="number" min="1" value="3" onchange="mathArea.update()">
+                </div>
             </div>
-            <div class="d-flex align-items-center">
-                <div class="me-2" style="width: 60px;">Columns: </div>
-                <input id="column-input-1" type="number" min="1" value="3" onchange="mathArea.update()">
+            <div class="matrix-input mx-3">
+                <h5>Matrix 2</h5>
+                <div class="d-flex align-items-center mb-2">
+                    <div class="me-2" style="width: 60px;">Rows: </div>
+                    <input id="row-input-2" type="number" min="1" value="3" onchange="mathArea.update()">
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="me-2" style="width: 60px;">Columns: </div>
+                    <input id="column-input-2" type="number" min="1" value="3" onchange="mathArea.update()">
+                </div>
             </div>
         </div>
 
