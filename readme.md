@@ -9,7 +9,7 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
     - [ ] All dpl keywords in description
     - [ ] Add input csv feature
     - [ ] Add export csv feature
-    - [ ] Make console pretty
+    - [X] Make console pretty
     - [ ] Refactor to oop
 - [ ] Matrix Library
     - [X] Implement method changing
@@ -32,6 +32,7 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
         - [ ] Make add and sub not use indiviual sizing
         - [ ] Make method modifer system to restrict matrix sizes
     - [ ] Add error console (some methods are very specific)
+    - [ ] Auto select matrix 
 - [ ] Fix file structure
 ### Bugs
 - [X] Matrix sizes doesn't match when changeing methods 

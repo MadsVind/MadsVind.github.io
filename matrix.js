@@ -45,7 +45,7 @@ class Matrix {
         for (let i = 0; i < this.#rows; i++) {
             returnStr += `\n${rowStart}`;
             for (let j = 0; j < this.#columns; j++) {
-                returnStr += `\n${cellStart}${this.#matrix[i][j]}"${(readOnly) ? "readonly" : ""}>`;
+                returnStr += `\n${cellStart}${this.#matrix[i][j]}"${(readOnly) ? "readonly" : ""} onfocus="this.select()">`;
             }
             returnStr += `\n${rowEnd}`;
         }
