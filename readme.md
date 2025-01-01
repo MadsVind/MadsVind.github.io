@@ -33,7 +33,7 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
         - [ ] Make method modifer system to restrict matrix sizes
     - [ ] Add error console (some methods are very specific)
     - [ ] Auto select matrix 
-- [ ] Fix file structure
+- [X] Fix file structure
 ### Bugs
 - [X] Matrix sizes doesn't match when changeing methods 
 - [X] Other methods doesn't work after Plu
