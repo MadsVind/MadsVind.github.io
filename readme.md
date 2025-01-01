@@ -22,10 +22,10 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
         - [X] Rref
         - [X] Qr
         - [X] Plu
-        - [ ] Polynomial
+        - [ ] Power
     - [X] Reset result on method change
     - [X] Implement clear
-    - [ ] Make results uneditable
+    - [X] Make results uneditable
     - [ ] Implement size changing
         - [X] Implement general size changing
         - [ ] Implement individual size change

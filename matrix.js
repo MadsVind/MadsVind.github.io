@@ -34,7 +34,7 @@ class Matrix {
         return this.#matrix.map(row => row.join(' ')).join(splitter);
     }
 
-    getHtml() {
+    getHtml(readOnly = false) {
         const matrixContainer = '<div class="matrix-container my-3">';
         const rowStart        = '<div class="row">';
         const cellStart       = '<input class="square-cell text-center" value="';
@@ -45,7 +45,7 @@ class Matrix {
         for (let i = 0; i < this.#rows; i++) {
             returnStr += `\n${rowStart}`;
             for (let j = 0; j < this.#columns; j++) {
-                returnStr += `\n${cellStart}${this.#matrix[i][j]}">`;
+                returnStr += `\n${cellStart}${this.#matrix[i][j]}"${(readOnly) ? "readonly" : ""}>`;
             }
             returnStr += `\n${rowEnd}`;
         }
@@ -313,7 +313,7 @@ class MathArea {
         this.#element.innerHTML += equals + '\n'
         
         for (let i = 0; i < outputMatrixAmount; i++) {
-            this.#element.innerHTML += this.#outputMatrixes[i].getHtml() + '\n';
+            this.#element.innerHTML += this.#outputMatrixes[i].getHtml(true) + '\n';
             if (i < (outputMatrixAmount - 1)) this.#element.innerHTML += operator + '\n'
         }
     }
