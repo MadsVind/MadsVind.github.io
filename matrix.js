@@ -234,18 +234,24 @@ class MathArea {
         const elements = document.querySelectorAll('.matrix-container');
         const inputMatrixesAmount = this.#method.inputAmount;
         
-        const rows    = document.getElementById('row-input-1').value;
-        const columns = document.getElementById('column-input-1').value;
+        const rows    = this.#rowAmount;
+        const columns = this.#colAmount;
 
-        for (let i = 0; i < elements.length; ++i) {
-            if (i < inputMatrixesAmount) {
+        for (let i = 0; i < this.#inputMatrixes.length; ++i) {
+            if (i < inputMatrixesAmount) 
                 this.#inputMatrixes[i] = Matrix.fromHtml(elements[i], rows, columns); 
-            }
-            else this.#outputMatrixes[i - inputMatrixesAmount] = new Matrix(rows, columns);
+            else 
+                this.#inputMatrixes[i] = new Matrix(rows, columns);
+        }
+
+        for (let i = 0; i < this.#outputMatrixes.length; ++i) {
+            this.#outputMatrixes[i] = new Matrix(rows, columns);
         }
     }
 
     update(methodTitle = undefined) {
+        this.#rowAmount = document.getElementById('row-input-1').value;
+        this.#colAmount = document.getElementById('column-input-1').value;
         this.updateMatrixes() 
         
         if (methodTitle != undefined) this.#method = Method.getMethodByTitle(methodTitle);
@@ -275,7 +281,7 @@ class MathArea {
     }
 
     setOutput(matrixStrArr, splitter) {
-        for (let i = 0; i < this.#outputMatrixes.length; ++i) {
+        for (let i = 0; i < matrixStrArr.length; ++i) {
             this.#outputMatrixes[i] = new Matrix(undefined, undefined, matrixStrArr[i], splitter);
         }
         this.#setMathArea();
@@ -333,7 +339,7 @@ Method.addMethod(new Method(title=INVERSE,     inputAmount=1, outputAmount=1));
 Method.addMethod(new Method(title=REF,         inputAmount=1, outputAmount=1));
 Method.addMethod(new Method(title=RREF,        inputAmount=1, outputAmount=1));
 Method.addMethod(new Method(title=QR,          inputAmount=1, outputAmount=2, operatorString="|"));
-//Method.addMethod(new Method(title=PLU,         inputAmount=1, outputAmount=3, operatorString="|"));
+Method.addMethod(new Method(title=PLU,         inputAmount=1, outputAmount=3, operatorString="|"));
 
 Method.initMethodNav()
 mathArea = new MathArea();
@@ -369,10 +375,10 @@ function handleOutput() {
 
     if (idxArr.length === 1) outputStrArr.push(output.join('\n'))
     for (let i = 0; i < idxArr.length; ++i) {
-        const start = idxArr[i] //+ (i === 1) ? 0 : 1; // -1 to get end of last matrix +1 to exclude the ' ' 
+        const start = idxArr[i]
         outputStrArr.push(output.slice(start, idxArr[i + 1]).join('\n'));
     }
-
+    console.error(outputStrArr);
     output = [];
     mathArea.setOutput(outputStrArr, " \n");
 }

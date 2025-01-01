@@ -33,6 +33,6 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
     - [ ] Fix adding new methods
 - [ ] Fix file structure
 ### Bugs
-- [ ] Matrix sizes doesn't match when changeing methods 
-- [ ] Other methods doesn't work after Plu
-- [ ] Doesn't reset going from Rref to Qr
+- [X] Matrix sizes doesn't match when changeing methods 
+- [X] Other methods doesn't work after Plu
+- [X] Doesn't reset going from Rref to Qr
