@@ -40,5 +40,6 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
 - [X] Doesn't reset going from Rref to Qr
 - [X] Calculation doesn't work
 - [X] Vector calculations incorrect
+- [ ] Footer not sticking to bottom if not fixed-bottom
 - [ ] Bug where matrix breakes if no number in input
 - [ ] Half bug: size of output is decided on the basis of the last min row and column
