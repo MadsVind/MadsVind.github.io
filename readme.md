@@ -29,7 +29,7 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
     - [ ] Implement size changing
         - [X] Implement general size changing
         - [X] Implement individual size change
-        - [ ] Make checkbox disabling indiviual sizing
+        - [ ] Make add and sub not use indiviual sizing
         - [ ] Make method modifer system to restrict matrix sizes
     - [ ] Add error console (some methods are very specific)
 - [ ] Fix file structure
@@ -39,3 +39,4 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
 - [X] Doesn't reset going from Rref to Qr
 - [X] Calculation doesn't work
 - [ ] Vector calculations incorrect
+- [ ] Half bug: size of output is decided on the basis of the last min row and column

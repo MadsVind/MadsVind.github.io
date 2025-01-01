@@ -271,23 +271,23 @@ class MathArea {
         const elements = document.querySelectorAll('.matrix-container');
         const inputMatrixesAmount = this.#method.inputAmount;
         
-        let maxRows = undefined    
-        let maxColumns = undefined;
+        let minRows = undefined    
+        let minColumns = undefined;
 
         for (let i = 0; i < this.#inputMatrixes.length; ++i) {
             if (i >= inputMatrixesAmount) {
-                this.#inputMatrixes[i] = new Matrix(maxRows, maxColumns);
+                this.#inputMatrixes[i] = new Matrix(minRows, minColumns);
                 continue;
             }
             const rows =   document.getElementById(`row-input-${i+1}`).value;
             const columns = document.getElementById(`column-input-${i+1}`).value;
-            if (maxRows == undefined || maxRows < rows) maxRows = rows;
-            if (maxColumns == undefined || maxColumns < columns) maxColumns = columns;
+            if (minRows == undefined || minRows > rows) minRows = rows;
+            if (minColumns == undefined || minColumns > columns) minColumns = columns;
             this.#inputMatrixes[i] = Matrix.fromHtml(elements[i], rows, columns); 
         }
 
         for (let i = 0; i < this.#outputMatrixes.length; ++i) {
-            this.#outputMatrixes[i] = new Matrix(maxRows, maxColumns);
+            this.#outputMatrixes[i] = new Matrix(minRows, minColumns);
         }
     }
 
