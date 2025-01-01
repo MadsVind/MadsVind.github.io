@@ -420,7 +420,6 @@ function handleOutput() {
         const start = idxArr[i]
         outputStrArr.push(output.slice(start, idxArr[i + 1]).join('\n'));
     }
-    console.error(outputStrArr);
     output = [];
     mathArea.setOutput(outputStrArr, " \n");
 }

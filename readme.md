@@ -39,6 +39,6 @@ The Github.io is primarily meant as a companion site for my CV, and is used for 
 - [X] Other methods doesn't work after Plu
 - [X] Doesn't reset going from Rref to Qr
 - [X] Calculation doesn't work
-- [ ] Vector calculations incorrect
+- [X] Vector calculations incorrect
 - [ ] Bug where matrix breakes if no number in input
 - [ ] Half bug: size of output is decided on the basis of the last min row and column
