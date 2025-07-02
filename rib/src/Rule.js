@@ -49,12 +49,25 @@ class Rule {
         return this.conclussion_text;
     }
 
-    update_size(ctx) {
+    update_size(ctx) { 
         this.conclussion_text.update_size(ctx);
         this.premise_text.update_size(ctx);
         const width = Math.max(this.conclussion_text.get_box().get_width(),
-                               this.premise_text.get_box().get_width());
+        this.premise_text.get_box().get_width());
         this.line.set_width(width);
+        this.box.set_width(width);
+        this.center_text();
+    }
+
+    center_text() {
+        const premise_box = this.premise_text.get_box();
+        const conclussion_box = this.conclussion_text.get_box();
+
+        const rule_center_x = this.box.get_center().x;
+        const premise_center_x = premise_box.get_center().x;
+        const conclussion_center_x = conclussion_box.get_center().x;
+        this.premise_text.get_box().set_x(premise_box.get_x() - (premise_center_x - rule_center_x));
+        this.conclussion_text.get_box().set_x(conclussion_box.get_x() - (conclussion_center_x - rule_center_x));
     }
   
     is_premise_text() {return this.premise_list.length == 0;}
@@ -151,6 +164,14 @@ class Box {
         this.y = y;
     }
 
+    set_x(x) {
+        this.x = x;
+    }
+
+    set_y(y) {
+        this.y = y;
+    }
+
     set_width(width) {
         this.width = width;
     }
@@ -160,8 +181,8 @@ class Box {
     }
 
     get_center() {
-        return {x: this.x + (width / 2),
-                y: this.y + (height / 2)};
+        return {x: this.x + (this.width / 2),
+                y: this.y + (this.height / 2)};
     }
 
     draw(ctx) {

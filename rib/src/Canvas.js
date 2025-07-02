@@ -64,7 +64,6 @@ class Canvas {
           this.active_rule = rule;
           break;
         }
-        
       } else {
         this.active_text = null;
         this.active_rule = null;
