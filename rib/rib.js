@@ -1,28 +1,8 @@
-import "src/Consts.js";
+// for text cursor make new text over existing text
 
-el = document.getElementsByClassName("draggable")[0]
-
-
-// function move(x, y, el) {
-//   el.style.position = "absolute";
-//   el.style.top = y + "px"
-//   el.style.left = x + "px"
-// }
-
-
-// function updateDisplay(event) {
-//   el = document.getElementsByClassName("draggable")[0]
-//   move(event.pageX, event.pageY, el)
-// }
-
-//box.addEventListener("mousemove", updateDisplay, false);
-//box.addEventListener("mouseenter", updateDisplay, false);
-//box.addEventListener("mouseleave", updateDisplay, false);
-
-
-var c = document.getElementById("canvas");
-var ctx = c.getContext("2d");
-ctx.font = FONT_SIZE + "px Arial";
+const c = document.getElementById("canvas");
+const ctx = c.getContext("2d");
+ctx.font = FONT_SIZE + "px Computer Modern";
 
 
 let canvas = new Canvas("canvas");
@@ -30,3 +10,21 @@ let canvas = new Canvas("canvas");
 c.addEventListener("dblclick", (event) => {
   canvas.add(event.offsetX, event.offsetY);
 });
+
+c.addEventListener("mousedown", (event) => {
+  canvas.click(event.offsetX, event.offsetY);
+});
+
+c.addEventListener("mousemove", (event) => {
+  canvas.move(event.offsetX, event.offsetY);
+});
+
+c.addEventListener("mouseup", () => {canvas.drop()});
+
+c.addEventListener("keydown", (event) => {
+  canvas.key_press(event.key);
+});
+
+c.setAttribute("tabindex", "0");
+c.style.outline = "none"; 
+c.focus(); 
