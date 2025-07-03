@@ -33,6 +33,24 @@ This Github.io is primarily meant as a companion site for my CV, illustrating so
         - [ ] Make method modifer system to restrict matrix sizes
     - [ ] Add error console (some methods are very specific)
     - [X] Auto select matrix 
+- [ ] Rule of Inference Builder
+    - [ ] Implement drag and drop
+        - [ ] Update rule hitbox
+            - [ ] The highest premise takes precedence 
+            - [ ] Update hitbox from inner rules
+        - [ ] Fix text editing of higher rules
+        - [ ] Fix insertion in higer rules
+        - [ ] Fix size updating
+        - [ ] implement dragging out rules again
+    - [ ] Implement text system
+        - [ ] Implement math charecters
+        - [ ] Implement cursor
+        - [ ] Implement ctrl + z and ctrl + y
+        - [ ] Implement selection
+    - [ ] Implement delete of rules
+    - [ ] Implement zoom or font size change
+    - [ ] implement output to latex
+
 - [X] Fix file structure
 ### Bugs
 - [X] Matrix sizes doesn't match when changeing methods 

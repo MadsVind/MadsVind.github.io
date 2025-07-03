@@ -5,7 +5,8 @@ class Rule {
     premise_list = []
     line = null;
     line_space = 5;
-    
+    hovered = false;
+    offset = 0;
   
     constructor(x, y, ctx) { // Use of FONT_SIZE should be made dynamic!
         const width  = ctx.measureText(STANDARD_TEXT).width;
@@ -15,31 +16,68 @@ class Rule {
         this.premise_text = new Text(x, y, width, height, STANDARD_TEXT);
         this.line = new Line(x, y + height + this.line_space, width);
         this.conclussion_text = new Text(x, y + height, width, height, STANDARD_TEXT);
+        this.offset = this.premise_text.get_box().height;
         this.box = new Box(x, y, width, height * 2);
+    }
+
+    find_text(x, y) {
+        let text = null;
+        if (this.conclussion_text.get_box().is_within(x, y)) 
+            text = this.conclussion_text;
+        else if (this.is_premise_text() && this.premise_text.get_box().is_within(x, y)) 
+            text = this.premise_text;
+        else {
+            for (let rule of this.premise_list) {
+                text = rule.find_text(x, y);
+                if (text != null) break;
+            }
+        }
+        return text;
     }
 
     draw(ctx, debug=false) {
         const box = this.box;
         this.line.draw(ctx);
         if (this.is_premise_text())  {
-            this.premise_text.draw(ctx, debug);
-            this.conclussion_text.draw(ctx, debug);
+            if (this.hovered == true)
+                this.premise_text.get_box().draw(ctx, debug);
+            else
+                this.premise_text.draw(ctx, debug);
         }
-        else return "to be done";
+        else {
+            if (this.hovered == true)
+                for (let rule of this.premise_list) { rule.get_box().draw(ctx, debug); }
+            else
+                for (let rule of this.premise_list) { rule.draw(ctx, debug); }
+        }
+        this.conclussion_text.draw(ctx, debug);
                     
         if (debug == true) {
             box.draw(ctx);
         }
     }
 
+    set_hovered(bool) {
+        this.hovered = bool;
+    }
+
     set_pos(x, y) {
         const premise_box = this.premise_text.get_box();
         const conclussion_box = this.conclussion_text.get_box();
 
-        premise_box.set_pos(x, y);
-        this.line.set_pos(x, y + premise_box.height + this.line_space) 
-        conclussion_box.set_pos(x, y + premise_box.height);
-        this.box.set_pos(x, y);
+        let new_y = y;
+        if (this.is_premise_text()) {
+            premise_box.set_pos(x, y);
+        } else {
+            const height = this.get_max_child_height();
+            new_y = y - (height - this.conclussion_text.get_box().get_height());
+            this.set_children_pos(x, y);
+        }
+        this.line.set_pos(x, y + this.offset + this.line_space); 
+        conclussion_box.set_pos(x, y + this.offset);
+
+        this.box.set_pos(x, new_y);
+        this.center_text();
     }
   
     get_premise() {
@@ -51,12 +89,32 @@ class Rule {
 
     update_size(ctx) { 
         this.conclussion_text.update_size(ctx);
-        this.premise_text.update_size(ctx);
-        const width = Math.max(this.conclussion_text.get_box().get_width(),
-        this.premise_text.get_box().get_width());
+        
+        let width = 0;
+        if (this.is_premise_text()) {
+            this.premise_text.update_size(ctx);
+            width = Math.max(this.conclussion_text.get_box().get_width(),
+            this.premise_text.get_box().get_width());
+        } else {
+            this.set_children_pos(this.box.get_x(), this.box.get_y());
+            for (let rule of this.premise_list) { rule.update_size(ctx); }
+            width = this.get_sum_child_width();
+            const height = this.get_max_child_height();
+            this.box.set_height(height + this.conclussion_text.get_box().get_height());
+            this.box.set_y(this.box.get_y() - (height - this.conclussion_text.get_box().get_height()))
+        }
         this.line.set_width(width);
         this.box.set_width(width);
         this.center_text();
+    }
+
+    set_children_pos(x, y) {
+        let width = 0;
+        for (let i = 0; i < this.premise_list.length; i++) {
+            const rule = this.premise_list[i];
+            rule.set_pos(x + width, y - this.offset);
+            width += rule.get_box().get_width();
+        }
     }
 
     center_text() {
@@ -69,130 +127,34 @@ class Rule {
         this.premise_text.get_box().set_x(premise_box.get_x() - (premise_center_x - rule_center_x));
         this.conclussion_text.get_box().set_x(conclussion_box.get_x() - (conclussion_center_x - rule_center_x));
     }
-  
-    is_premise_text() {return this.premise_list.length == 0;}
+
+    get_max_child_height() {
+        let max_child_height = 0;
+        for (let rule of this.premise_list) {
+            const temp_height = rule.get_box().get_height();
+            if (max_child_height < temp_height) max_child_height = temp_height;
+        }
+        return max_child_height;
+    }
+
+    get_sum_child_width() {
+        let width_sum = 0;
+        for (let rule of this.premise_list) {
+            width_sum += rule.get_box().get_width();
+        }
+        return width_sum;
+    }
+
+    add_inner_rule(rule, ctx) {
+        this.premise_list.push(rule); 
+        this.update_size(ctx);
+    }
+
+    remove_inner_rule(rule, ctx) { 
+        this.premise_list.slice(this.premise_list.indexOf(rule), 1); 
+        this.update_size(ctx);
+    }
+
+    is_premise_text() { return this.premise_list.length == 0; }
     get_box() { return this.box; }
 }
-
-class Text {
-    text = null;
-    box = null;
-
-    constructor(x, y, width, height, text) {
-        this.text = text;
-        this.box = new Box(x, y, width, height)
-    }
-
-    draw(ctx, debug=false) {
-        const box = this.box;
-        ctx.fillText(this.text, 
-                     box.get_x(), 
-                     box.get_y() + box.get_height());
-        if (debug == true) box.draw(ctx);
-    }
-
-    backspace() { // w need to have a cursor instead and this should then be dynamic
-        this.text = this.text.slice(0, -1);
-    }
-
-    add_char(char) {
-        this.text = this.text + char;
-    }
-
-    get_box() { return this.box; }
-
-    update_size(ctx) {
-        this.box.set_width(ctx.measureText(this.text).width);
-    }
-}
-
-class Line {
-    x = 0;
-    y = 0;
-    width = 0;
-
-    constructor(x, y, width) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-    }
-
-    draw(ctx) {
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x + this.width, this.y);
-        ctx.stroke();
-    }
-
-    set_width(width) {
-        this.width = width;
-    }
-
-    set_pos(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-  
-class Box {
-    x = 0; 
-    y = 0;
-    width = 0;
-    height = 0;
-  
-    constructor(x, y, width, height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-    }
-
-    is_within(x, y) {
-        const top = this.y;
-        const bot = this.y + this.height; 
-        const left = this.x; 
-        const right = this.x + this.width;
-        return (left < x && x < right && top < y && y < bot);
-    }
-
-    log() {
-        console.log(`boundaries - Bot: ${this.y + this.height}, Top: ${this.y}, Left: ${this.x}, Right: ${this.x + this.width}`);
-    }
-
-    set_pos(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    set_x(x) {
-        this.x = x;
-    }
-
-    set_y(y) {
-        this.y = y;
-    }
-
-    set_width(width) {
-        this.width = width;
-    }
-
-    set_height(height) {
-        this.height = height;
-    }
-
-    get_center() {
-        return {x: this.x + (this.width / 2),
-                y: this.y + (this.height / 2)};
-    }
-
-    draw(ctx) {
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.stroke();
-    }
-
-    get_x() { return this.x; }
-    get_y() { return this.y; }
-    get_height() { return this.height; }
-    get_width() { return this.width; }
-}
-  

@@ -42,7 +42,7 @@ class Canvas {
     if (this.debug) console.log(`Click X: ${x}, Y: ${y}`);
     for (let rule of this.rule_list) {
       const box = rule.get_box();
-      box.log();
+      if (this.debug) box.log();
 
       if (box.is_within(x, y)) {
         if (this.debug) console.log(`Click is within boundaries - X: ${x}, Y: ${y}`);
@@ -50,14 +50,7 @@ class Canvas {
         this.drag_diff_x = x - box.get_x(); 
         this.drag_diff_y = y - box.get_y(); 
 
-        const conclussion = rule.get_conclussion();
-        const premise = rule.get_premise();
-
-        let text = null;
-        if (conclussion.get_box().is_within(x, y)) 
-          text = conclussion;
-        else if (premise.get_box().is_within(x, y)) 
-          text = premise;
+        let text = rule.find_text(x, y);
         
         if (text != null) {
           this.active_text = text;
@@ -74,11 +67,49 @@ class Canvas {
   move(x, y) {
     if (this.dragged_rule != null) {
       this.dragged_rule.set_pos(x - this.drag_diff_x, y - this.drag_diff_y);
+      this.hover_rule();
       this.update();
     }
   }
 
+  hover_rule() {
+    const inner_rule = this.dragged_rule; 
+    for (let outer_rule of this.rule_list) {
+      if (outer_rule == inner_rule) continue;
+      let outer_box = null;
+      if (!outer_rule.is_premise_text()) outer_box = outer_rule.get_box();
+      else outer_box = outer_rule.get_premise().get_box();
+      //const outer_box = (outer_rule.get_premise() == null) ? outer_rule.get_box() : outer_rule.get_premise().get_box(); // first statement should be changed into the box of rules in premise list
+      if (outer_box.overlap(inner_rule.get_box())) {
+        outer_rule.set_hovered(true);
+        return;
+      } else {
+        outer_rule.set_hovered(false);
+      }
+    }
+  }
+
+
+  insert_rule() {
+    const inner_rule = this.dragged_rule;
+    for (let outer_rule of this.rule_list) {
+      if (outer_rule == inner_rule) continue;
+      let outer_box = null;
+      if (!outer_rule.is_premise_text()) outer_box = outer_rule.get_box();
+      else outer_box = outer_rule.get_premise().get_box();
+      if (outer_box.overlap(inner_rule.get_box())) {
+        outer_rule.add_inner_rule(inner_rule, this.ctx);
+        this.rule_list.splice(this.rule_list.indexOf(inner_rule), 1);
+        outer_rule.set_hovered(false);
+        return;
+      }
+    }
+  }
+
   drop() {
+    if (this.dragged_rule == null) return;
+    this.insert_rule();
+    this.update();
     this.dragged_rule = null;
     this.drag_diff_x = null;
     this.drag_diff_y = null;
