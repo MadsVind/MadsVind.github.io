@@ -9,10 +9,12 @@ class Line {
         this.width = width;
     }
 
-    draw(ctx) {
+    draw(ctx, abs_x, abs_y) {
+        const x = this.x + abs_x;
+        const y = this.y + abs_y;
         ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x + this.width, this.y);
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + this.width, y);
         ctx.stroke();
     }
 
@@ -22,6 +24,10 @@ class Line {
 
     set_pos(x, y) {
         this.x = x;
+        this.y = y;
+    }
+
+    set_y(y) {
         this.y = y;
     }
 }

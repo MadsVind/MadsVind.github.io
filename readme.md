@@ -1,7 +1,7 @@
 # Mads Knudsen companion site
 This Github.io is primarily meant as a companion site for my CV, illustrating some of the projects on there.
 
-
+just frigging use that parent and children know eachother
 
 ## TODO:
 - [ ] DPL
@@ -33,8 +33,9 @@ This Github.io is primarily meant as a companion site for my CV, illustrating so
         - [ ] Make method modifer system to restrict matrix sizes
     - [ ] Add error console (some methods are very specific)
     - [X] Auto select matrix 
-- [ ] Rule of Inference Builder
+- [ ] Rule of Inference Builder 
     - [ ] Implement drag and drop
+        - [ ] Drop for ordering 
         - [ ] Update rule hitbox
             - [ ] The highest premise takes precedence 
             - [ ] Update hitbox from inner rules

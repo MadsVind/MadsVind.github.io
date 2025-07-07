@@ -29,7 +29,7 @@ class Canvas {
   update() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     for (let rule of this.rule_list) {
-      rule.draw(this.ctx, this.debug);
+      rule.draw(this.ctx, this.debug, 0, 0);
     }
   }
 
@@ -66,49 +66,47 @@ class Canvas {
 
   move(x, y) {
     if (this.dragged_rule != null) {
-      this.dragged_rule.set_pos(x - this.drag_diff_x, y - this.drag_diff_y);
-      this.hover_rule();
+      this.dragged_rule.get_box().set_pos(x - this.drag_diff_x, y - this.drag_diff_y);
+      this.hover_rule(x, y);
       this.update();
     }
   }
 
-  hover_rule() {
+  hover_rule(x, y) { 
     const inner_rule = this.dragged_rule; 
     for (let outer_rule of this.rule_list) {
       if (outer_rule == inner_rule) continue;
-      let outer_box = null;
-      if (!outer_rule.is_premise_text()) outer_box = outer_rule.get_box();
-      else outer_box = outer_rule.get_premise().get_box();
-      //const outer_box = (outer_rule.get_premise() == null) ? outer_rule.get_box() : outer_rule.get_premise().get_box(); // first statement should be changed into the box of rules in premise list
-      if (outer_box.overlap(inner_rule.get_box())) {
-        outer_rule.set_hovered(true);
+      const found_el = outer_rule.premise_in_pos(x, y);
+      const hovered_rule = outer_rule.rule_from_child(found_el);
+      if (hovered_rule != null) {
+        console.log("rule");
+        hovered_rule.set_hovered(true);
         return;
       } else {
-        outer_rule.set_hovered(false);
+        outer_rule.not_hovered();
       }
     }
   }
 
 
-  insert_rule() {
+  insert_rule(x, y) {
     const inner_rule = this.dragged_rule;
     for (let outer_rule of this.rule_list) {
       if (outer_rule == inner_rule) continue;
-      let outer_box = null;
-      if (!outer_rule.is_premise_text()) outer_box = outer_rule.get_box();
-      else outer_box = outer_rule.get_premise().get_box();
-      if (outer_box.overlap(inner_rule.get_box())) {
-        outer_rule.add_inner_rule(inner_rule, this.ctx);
+      const found_el = outer_rule.premise_in_pos(x, y);
+      const hovered_rule = outer_rule.rule_from_child(found_el);
+      if (hovered_rule != null) {
+        hovered_rule.add_inner_rule(inner_rule, this.ctx);
         this.rule_list.splice(this.rule_list.indexOf(inner_rule), 1);
-        outer_rule.set_hovered(false);
+        hovered_rule.set_hovered(false);
         return;
       }
     }
   }
 
-  drop() {
+  drop(x, y) {
     if (this.dragged_rule == null) return;
-    this.insert_rule();
+    this.insert_rule(x, y);
     this.update();
     this.dragged_rule = null;
     this.drag_diff_x = null;

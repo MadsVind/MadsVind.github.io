@@ -48,10 +48,12 @@ class Box {
 
     set_width(width) {
         this.width = width;
+        this.max_x = this.min_x + this.width;
     }
 
     set_height(height) {
         this.height = height;
+        this.max_y = this.min_y + this.height;
     }
 
     get_center() {
@@ -59,8 +61,8 @@ class Box {
                 y: this.min_y + (this.height / 2)};
     }
 
-    draw(ctx) {
-        ctx.rect(this.min_x, this.min_y, this.width, this.height);
+    draw(ctx, abs_x, abs_y) {
+        ctx.rect(this.min_x + abs_x, this.min_y + abs_y, this.width, this.height);
         ctx.stroke();
     }
 

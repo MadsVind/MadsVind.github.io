@@ -7,12 +7,14 @@ class Text {
         this.box = new Box(x, y, width, height)
     }
 
-    draw(ctx, debug=false) {
+    draw(ctx, debug=false, abs_x, abs_y) {
         const box = this.box;
+        const x = box.get_x() + abs_x;
+        const y = box.get_y() + abs_y;
         ctx.fillText(this.text, 
-                     box.get_x(), 
-                     box.get_y() + box.get_height());
-        if (debug == true) box.draw(ctx);
+                     x, 
+                     y + box.get_height());
+        //if (debug == true) box.draw(ctx, abs_x, abs_y);
     }
 
     backspace() { // w need to have a cursor instead and this should then be dynamic
