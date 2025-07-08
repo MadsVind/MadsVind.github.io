@@ -72,14 +72,13 @@ class Canvas {
     }
   }
 
-  hover_rule(x, y) { 
+  hover_rule(x, y) { // need to find way to check if exited rule
     const inner_rule = this.dragged_rule; 
     for (let outer_rule of this.rule_list) {
       if (outer_rule == inner_rule) continue;
       const found_el = outer_rule.premise_in_pos(x, y);
       const hovered_rule = outer_rule.rule_from_child(found_el);
       if (hovered_rule != null) {
-        console.log("rule");
         hovered_rule.set_hovered(true);
         return;
       } else {
@@ -120,7 +119,7 @@ class Canvas {
     else if (key.length > 1) return;
     else this.active_text.add_char(key);
 
-    this.active_rule.update_size(this.ctx);
+    this.active_rule.update(this.ctx);
     this.update();
   }
 }

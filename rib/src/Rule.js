@@ -3,10 +3,12 @@ class Rule {
     conclussion_text = null; 
     premise_text = null; 
     premise_list = []
+    parent = null;
     line = null;
     line_space = 5;
     hovered = false;
-    children_stacked = 2; // First 2 is the premise and conclussion text;
+    total_height = 0;
+    depth = 0;
   
     constructor(x, y, ctx) { // Use of FONT_SIZE should be made dynamic!
         const width  = ctx.measureText(STANDARD_TEXT).width;
@@ -18,6 +20,30 @@ class Rule {
         this.premise_text = new Text(0, 0, width, height, STANDARD_TEXT);
         this.line = new Line(0, 0 + height + this.line_space, width);
         this.conclussion_text = new Text(0, 0 + height, width, height, STANDARD_TEXT);
+    }
+
+
+    get_depth() {
+        return this.depth;
+    }
+
+    set_parent(rule) {
+        this.parent = rule;
+        this.update_depth();
+    }
+
+    update_depth() {
+        this.depth = this.parent.get_depth() + 1;
+        for (let rule of this.premise_list) { rule.update_depth(); }
+    }
+
+    set_root() {
+        this.parent = null;
+        this.depth = 0;
+    }
+
+    is_root() {
+        return this.parent == null;
     }
 
     get_relative_pos(x, y) {
@@ -33,45 +59,29 @@ class Rule {
         return y - this.box.get_x();
     }
 
-    find_text(x, y) {
-        let text = null;
-        [x, y] = this.get_relative_pos(x, y); 
-        if (this.conclussion_text.get_box().is_within(x, y)) 
-            text = this.conclussion_text;
-        else if (this.is_premise_text() && this.premise_text.get_box().is_within(x, y)) 
-            text = this.premise_text;
-        else {
-            for (let rule of this.premise_list) {
-                text = rule.find_text(x, y);
-                if (text != null) break;
-            }
-        }
-        return text;
-    }
-    
     draw(ctx, debug=false, abs_x, abs_y) {
         const box = this.box;
         if (debug == true) {
             box.draw(ctx, abs_x, abs_y);
         }
-
+        
         abs_x += this.box.get_x(); 
         abs_y += this.box.get_y();
         this.line.draw(ctx, abs_x, abs_y);
-        if (this.is_premise_text())  {
+        if (this.is_leaf())  {
             if (this.hovered == true)
                 this.premise_text.get_box().draw(ctx, abs_x, abs_y);
             else
-                this.premise_text.draw(ctx, debug, abs_x, abs_y);
-        }
-        else {
-            if (this.hovered == true)
-                for (let rule of this.premise_list) { rule.get_box().draw(ctx, abs_x, abs_y); }
-            else
-                for (let rule of this.premise_list) { rule.draw(ctx, debug, abs_x, abs_y); }
-        }
-        this.conclussion_text.draw(ctx, debug, abs_x, abs_y);
-                    
+            this.premise_text.draw(ctx, debug, abs_x, abs_y);
+    }
+    else {
+        if (this.hovered == true)
+            for (let rule of this.premise_list) { rule.get_box().draw(ctx, abs_x, abs_y); }
+        else
+        for (let rule of this.premise_list) { rule.draw(ctx, debug, abs_x, abs_y); }
+    }
+    this.conclussion_text.draw(ctx, debug, abs_x, abs_y);
+
     }
 
     set_hovered(bool) {
@@ -80,7 +90,7 @@ class Rule {
 
     // depth first search because it is the easiest 
     rule_from_child(child) {
-        if (this.conclussion_text == child ||
+    if (this.conclussion_text == child ||
             this.premise_text == child
         ) return this;
         for (let rule of this.premise_list) {
@@ -92,17 +102,33 @@ class Rule {
         return null;
     }
     
-
-    premise_in_pos(x, y) {
+    find_text(x, y) {
+        let text = null;
+        [x, y] = this.get_relative_pos(x, y); 
+        if (this.conclussion_text.get_box().is_within(x, y)) 
+            text = this.conclussion_text;
+        else if (this.is_leaf() && this.premise_text.get_box().is_within(x, y)) 
+            text = this.premise_text;
+        else {
+            for (let rule of this.premise_list) {
+                text = rule.find_text(x, y);
+                if (text != null) break;
+            }
+        }
+        return text;
+    }
+    
+    premise_in_pos(x, y) { // Works but, This has to be rewritten
+        // If in premise
         let premise = false;
         [x, y] = this.get_relative_pos(x, y);
-        if (this.is_premise_text()) {
+        if (this.is_leaf()) {
             if (this.premise_text.get_box().is_within(x, y))
                 return this.premise_text;
-            else 
-                return null
-
+            return null
+        
         }
+        // If in premise part of child
         for (let rule of this.premise_list) { // this need to be done from scratch
             if (rule.get_box().is_within(x, y)) {
                 premise = rule.premise_in_pos(x, y);
@@ -113,7 +139,9 @@ class Rule {
                 break;
             }
         }
-        return premise
+
+        // If in non premise part of child
+        return (premise == false && !this.is_root()) ? this : premise; 
     }
 
     not_hovered() {
@@ -124,35 +152,49 @@ class Rule {
     }
     
     get_premise() {
-      return (this.is_premise_text()) ? this.premise_text : this.premise_list;
+      return (this.is_leaf()) ? this.premise_text : this.premise_list;
     }
     get_conclussion() {
         return this.conclussion_text;
     }
 
-    update_size(ctx) { 
-        this.conclussion_text.update_size(ctx);
+    update_pos(ctx, total_stacked = null)  { // Works but need work
+        if (this.is_root()) total_stacked = this.total_height + 1;
         
-        let width = 0;
-        if (this.is_premise_text()) {
-            this.premise_text.update_size(ctx);
-            width = Math.max(this.conclussion_text.get_box().get_width(),
-            this.premise_text.get_box().get_width());
-        } else {
-            for (let rule of this.premise_list) { rule.update_size(ctx); }
-            width = this.get_sum_child_width();
-            const height = (this.children_stacked) * FONT_SIZE;
-            this.box.set_y(this.box.get_max_y() - height);
-            this.conclussion_text.get_box().set_y(height - FONT_SIZE);
-            this.line.set_y(height - FONT_SIZE + this.line_space);
-            this.box.set_height(height);
-        }
-        this.line.set_width(width);
-        this.box.set_width(width);
+        for (let rule of this.premise_list) { rule.update_pos(ctx, total_stacked); }
+    
+        let height = (total_stacked - this.depth) * FONT_SIZE; 
+
+        // we only need to move upward for root y
+        if (this.is_root()) this.box.set_y(this.box.get_max_y() - height);
+        this.box.set_height(height);
+
+        // This is here since the conclussion part needs to be at the buttom
+        this.premise_text.get_box().set_y(height - (FONT_SIZE * 2));
+        this.line.set_y(height - FONT_SIZE + this.line_space);
+        this.conclussion_text.get_box().set_y(height - FONT_SIZE);
         this.center_text();
+        this.set_children_pos()
     }
 
-    set_children_pos() {
+    update_size(ctx) {
+        this.conclussion_text.update_size(ctx);
+        this.premise_text.update_size(ctx);
+        
+        for (let rule of this.premise_list) { rule.update_size(ctx); }
+        const premise_width = (!this.is_leaf()) ? this.get_sum_child_width() : this.premise_text.get_box().get_width();
+        const width = Math.max(premise_width, this.conclussion_text.get_box().get_width())
+        this.line.set_width(width);
+        this.box.set_width(width);
+    }
+
+    update(ctx) { 
+        const root = this.get_root();
+        root.update_size(ctx); 
+        root.update_pos(ctx);
+    }
+
+    set_children_pos() { 
         let width = 0;
         for (let i = 0; i < this.premise_list.length; i++) {
             const rule_box = this.premise_list[i].get_box();
@@ -179,20 +221,31 @@ class Rule {
         }
         return width_sum;
     }
+    
+    update_total_height(height_sum) {
+        this.total_height = Math.max(height_sum, this.total_height);
+        if (!this.is_root()) 
+            this.parent.update_total_height(this.total_height + 1);
+    }
 
-    add_inner_rule(rule, ctx) {
+    add_inner_rule(rule, ctx) { 
         this.premise_list.push(rule); 
-        this.children_stacked = Math.max(this.children_stacked, rule.get_children_stacked() + 1);
+        rule.set_parent(this);
+        rule.update_total_height(1);
         this.set_children_pos(); 
-        this.update_size(ctx);
+        this.update(ctx);
     }
 
-    remove_inner_rule(rule, ctx) { 
+    remove_inner_rule(rule, ctx) { // update total height
         this.premise_list.slice(this.premise_list.indexOf(rule), 1); 
-        this.update_size(ctx);
+        rule.set_root();
+        this.update(ctx);
     }
 
-    is_premise_text() { return this.premise_list.length == 0; }
+    get_root() {
+        return (this.is_root()) ? this : this.parent.get_root();
+    }
+
+    is_leaf() { return this.premise_list.length == 0; }
     get_box() { return this.box; }
-    get_children_stacked() { return this.children_stacked; }
 }
