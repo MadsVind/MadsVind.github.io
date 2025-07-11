@@ -14,6 +14,8 @@ class Canvas {
   dragged_rule = null; 
   drag_diff_x = 0;
   drag_diff_y = 0;
+  // Make hover event maybe?
+  hovered_rule = null;
   
   constructor(id) {
     this.id = id;
@@ -38,7 +40,7 @@ class Canvas {
     this.update();
   }
 
-  click(x, y) {
+  click(x, y) { // This is not pretty, try to make better looking (if hell)
     if (this.debug) console.log(`Click X: ${x}, Y: ${y}`);
     for (let rule of this.rule_list) {
       const box = rule.get_box();
@@ -72,12 +74,11 @@ class Canvas {
     }
   }
 
-  hover_rule(x, y) { // need to find way to check if exited rule
+  hover_rule(x, y) { // This is not pretty, try to make better looking
     const inner_rule = this.dragged_rule; 
     for (let outer_rule of this.rule_list) {
       if (outer_rule == inner_rule) continue;
-      const found_el = outer_rule.premise_in_pos(x, y);
-      const hovered_rule = outer_rule.rule_from_child(found_el);
+      outer_rule = outer_rule.has_within(x, y);
       if (hovered_rule != null) {
         hovered_rule.set_hovered(true);
         return;
@@ -87,8 +88,24 @@ class Canvas {
     }
   }
 
+  hover_rule(x, y) { // This is not pretty, try to make better looking
+    const inner_rule = this.dragged_rule; 
+    for (let outer_rule of this.rule_list) {
+      if (outer_rule == inner_rule) continue;
+      const found_el = outer_rule.premise_in_pos(x, y);
+      const hovered_rule = outer_rule.rule_from_child(found_el);
+      if (hovered_rule != null) {
+        if (this.hovered_rule != null) this.hovered_rule.not_hovered();
+        this.hovered_rule = hovered_rule;
+        hovered_rule.set_hovered();
+        return;
+      } 
+    }
+    if (this.hovered_rule != null) this.hovered_rule.not_hovered();
+  }
 
-  insert_rule(x, y) {
+
+  insert_rule(x, y) { // This is not pretty, try to make better looking
     const inner_rule = this.dragged_rule;
     for (let outer_rule of this.rule_list) {
       if (outer_rule == inner_rule) continue;
@@ -97,10 +114,12 @@ class Canvas {
       if (hovered_rule != null) {
         hovered_rule.add_inner_rule(inner_rule, this.ctx);
         this.rule_list.splice(this.rule_list.indexOf(inner_rule), 1);
-        hovered_rule.set_hovered(false);
-        return;
+        hovered_rule.not_hovered();
+        break;
       }
     }
+    if (this.hovered_rule != null) this.hovered_rule.not_hovered();
+    this.hovered_rule = null;
   }
 
   drop(x, y) {

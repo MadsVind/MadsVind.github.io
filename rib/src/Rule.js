@@ -7,8 +7,6 @@ class Rule {
     line = null;
     line_space = 5;
     hovered = false;
-    total_height = 0;
-    depth = 0;
   
     constructor(x, y, ctx) { // Use of FONT_SIZE should be made dynamic!
         const width  = ctx.measureText(STANDARD_TEXT).width;
@@ -23,23 +21,13 @@ class Rule {
     }
 
 
-    get_depth() {
-        return this.depth;
-    }
-
     set_parent(rule) {
         this.parent = rule;
-        this.update_depth();
     }
 
-    update_depth() {
-        this.depth = this.parent.get_depth() + 1;
-        for (let rule of this.premise_list) { rule.update_depth(); }
-    }
 
     set_root() {
         this.parent = null;
-        this.depth = 0;
     }
 
     is_root() {
@@ -73,19 +61,26 @@ class Rule {
                 this.premise_text.get_box().draw(ctx, abs_x, abs_y);
             else
             this.premise_text.draw(ctx, debug, abs_x, abs_y);
-    }
-    else {
-        if (this.hovered == true)
-            for (let rule of this.premise_list) { rule.get_box().draw(ctx, abs_x, abs_y); }
-        else
-        for (let rule of this.premise_list) { rule.draw(ctx, debug, abs_x, abs_y); }
-    }
-    this.conclussion_text.draw(ctx, debug, abs_x, abs_y);
+        }
+        else {
+            if (this.hovered == true)
+                for (let rule of this.premise_list) { rule.get_box().draw(ctx, abs_x, abs_y); }
+            else
+            for (let rule of this.premise_list) { rule.draw(ctx, debug, abs_x, abs_y); }
+        }
+        this.conclussion_text.draw(ctx, debug, abs_x, abs_y);
 
     }
 
-    set_hovered(bool) {
-        this.hovered = bool;
+    set_hovered() {
+        this.hovered = true;
+    }
+
+    not_hovered() {
+        this.hovered = false;
+        for (let rule of this.premise_list) {
+            rule.not_hovered();
+        }
     }
 
     // depth first search because it is the easiest 
@@ -118,7 +113,7 @@ class Rule {
         return text;
     }
     
-    premise_in_pos(x, y) { // Works but, This has to be rewritten
+    premise_in_pos(x, y) { // Works but, This has to be rewritten (Should be deprecated)
         // If in premise
         let premise = false;
         [x, y] = this.get_relative_pos(x, y);
@@ -144,12 +139,29 @@ class Rule {
         return (premise == false && !this.is_root()) ? this : premise; 
     }
 
-    not_hovered() {
-        this.hovered = false;
-        for (let rule of this.premise_list) {
-            rule.not_hovered();
+    /**
+     * Returns the most inner rule, by x, y coordinate.
+     * The rule returned is therefore the rule for which x, y is on its conclussion text box
+     * @param {*} x from left to right
+     * @param {*} y from the top down
+     */
+    has_within(x, y) {
+        if (!this.get_box().is_within(x, y)) return null;
+        if (this.is_leaf()) return this;
+        
+        [x, y] = this.get_relative_pos(x, y);
+
+        // Is in children
+        for (let rule of this.premise_list) { // this need to be done from scratch
+            const search_result = rule.has_within(x, y);
+            if (search_result != null)
+                return search_result;
         }
+
+        // Is not in children but in rule
+        return this 
     }
+
     
     get_premise() {
       return (this.is_leaf()) ? this.premise_text : this.premise_list;
@@ -158,23 +170,23 @@ class Rule {
         return this.conclussion_text;
     }
 
-    update_pos(ctx, total_stacked = null)  { // Works but need work
-        if (this.is_root()) total_stacked = this.total_height + 1;
-        
-        for (let rule of this.premise_list) { rule.update_pos(ctx, total_stacked); }
-    
-        let height = (total_stacked - this.depth) * FONT_SIZE; 
+    update_pos(ctx, root_height = null)  { // Works but need work 
+        if (this.is_root()) root_height = this.box.get_height()
+        for (let rule of this.premise_list) { rule.update_pos(ctx, root_height); }
 
-        // we only need to move upward for root y
-        if (this.is_root()) this.box.set_y(this.box.get_max_y() - height);
-        this.box.set_height(height);
+        const text_height = FONT_SIZE;
+        const this_height = this.box.get_height();
+        const inner_y_offset = (root_height - text_height) - (root_height - this_height); // the text and line
+      
+        if (!this.is_root()) {
+            const parent_height = this.parent.get_box().get_height();
+            this.box.set_y((parent_height - this_height) - text_height); 
+        }
 
-        // This is here since the conclussion part needs to be at the buttom
-        this.premise_text.get_box().set_y(height - (FONT_SIZE * 2));
-        this.line.set_y(height - FONT_SIZE + this.line_space);
-        this.conclussion_text.get_box().set_y(height - FONT_SIZE);
+        this.line.set_y(inner_y_offset + this.line_space);
+        this.conclussion_text.get_box().set_y(inner_y_offset);
         this.center_text();
-        this.set_children_pos()
+        this.set_children_pos();
     }
 
     update_size(ctx) {
@@ -198,7 +210,7 @@ class Rule {
         let width = 0;
         for (let i = 0; i < this.premise_list.length; i++) {
             const rule_box = this.premise_list[i].get_box();
-            rule_box.set_pos(0 + width, 0);
+            rule_box.set_x(0 + width);
             width += rule_box.get_width();
         }
     }
@@ -222,16 +234,20 @@ class Rule {
         return width_sum;
     }
     
-    update_total_height(height_sum) {
-        this.total_height = Math.max(height_sum, this.total_height);
+    // This does not work with removal again
+    update_height(height_sum) {
+        const new_height = Math.max(height_sum, this.box.get_height());
         if (!this.is_root()) 
-            this.parent.update_total_height(this.total_height + 1);
+            this.parent.update_height(new_height + FONT_SIZE); // Future proof this with function which check what actual height should be added
+        else  
+            this.box.set_y(this.box.get_max_y() - new_height); // Because y grows downwards, we have update the roots min y pos when heigh change
+        this.box.set_height(new_height);
     }
 
     add_inner_rule(rule, ctx) { 
         this.premise_list.push(rule); 
         rule.set_parent(this);
-        rule.update_total_height(1);
+        rule.update_height(FONT_SIZE);
         this.set_children_pos(); 
         this.update(ctx);
     }
