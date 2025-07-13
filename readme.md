@@ -34,24 +34,26 @@ just frigging use that parent and children know eachother
     - [ ] Add error console (some methods are very specific)
     - [X] Auto select matrix 
 - [ ] Rule of Inference Builder 
-    - [ ] Implement drag and drop
-        - [ ] Drop for ordering 
+    - [X] Implement drag and drop
+        - [X] Drop for ordering 
         - [X] Update rule hitbox
             - [X] The highest premise takes precedence 
         - [X] Fix text editing of higher rules
         - [X] Fix insertion in higer rules
         - [X] Fix size updating
-        - [ ] implement dragging out rules again
+        - [X] implement dragging out rules again
     - [ ] Implement text system
         - [ ] Implement math charecters
         - [ ] Implement cursor
         - [ ] Implement ctrl + z and ctrl + y
         - [ ] Implement selection
-    - [ ] Style
+    - [ ] Stylize
+    - [ ] Make event system instead
     - [ ] Implement delete of rules
     - [ ] Implement zoom or font size change
     - [ ] implement output to latex
     - [ ] Eliminate the use of FONT_SIZE
+    - [ ] Make removed parent conclussion stay in original position 
 
 - [X] Fix file structure
 ### Bugs
