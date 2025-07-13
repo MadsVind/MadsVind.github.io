@@ -14,6 +14,8 @@ class Canvas {
   dragged_rule = null; 
   drag_diff_x = 0;
   drag_diff_y = 0;
+  // Make hover event maybe?
+  hovered_rule = null;
   
   constructor(id) {
     this.id = id;
@@ -29,8 +31,27 @@ class Canvas {
   update() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     for (let rule of this.rule_list) {
-      rule.draw(this.ctx, this.debug);
+      rule.draw(this.ctx, this.debug, 0, 0);
     }
+  }
+
+  dbl_click(x, y) {
+    for (let rule of this.rule_list) if (rule.get_box().has_within(x, y)) return this.remove_rule_at(x, y, rule); 
+    this.add(x, y);
+  }
+
+  /**
+   * Rule at x, y in root is removed from it's parent and tangentially also the root.
+   * @param {*} x 
+   * @param {*} y 
+   */
+  remove_rule_at(x, y, root) {
+    const rule = root.get_deepest_rule(x, y);
+    if (rule != root) {
+      rule.get_parent().remove_inner_rule(rule, this.ctx); 
+      this.rule_list.push(rule);
+    }
+    this.update();
   }
 
   add(x, y) {
@@ -38,26 +59,19 @@ class Canvas {
     this.update();
   }
 
-  click(x, y) {
+  click(x, y) { // This is not pretty, try to make better looking (if hell)
     if (this.debug) console.log(`Click X: ${x}, Y: ${y}`);
     for (let rule of this.rule_list) {
       const box = rule.get_box();
-      box.log();
+      if (this.debug) box.log();
 
-      if (box.is_within(x, y)) {
+      if (box.has_within(x, y)) {
         if (this.debug) console.log(`Click is within boundaries - X: ${x}, Y: ${y}`);
         this.dragged_rule = rule;
         this.drag_diff_x = x - box.get_x(); 
         this.drag_diff_y = y - box.get_y(); 
 
-        const conclussion = rule.get_conclussion();
-        const premise = rule.get_premise();
-
-        let text = null;
-        if (conclussion.get_box().is_within(x, y)) 
-          text = conclussion;
-        else if (premise.get_box().is_within(x, y)) 
-          text = premise;
+        let text = rule.find_text(x, y);
         
         if (text != null) {
           this.active_text = text;
@@ -73,12 +87,52 @@ class Canvas {
 
   move(x, y) {
     if (this.dragged_rule != null) {
-      this.dragged_rule.set_pos(x - this.drag_diff_x, y - this.drag_diff_y);
+      this.dragged_rule.get_box().set_pos(x - this.drag_diff_x, y - this.drag_diff_y);
+      this.hover_rule(x, y);
       this.update();
     }
   }
 
-  drop() {
+  hover_rule(x, y) { // This is not pretty, try to make better looking // i really hate this
+    const inner_rule = this.dragged_rule; 
+    for (let outer_rule of this.rule_list) {
+      if (outer_rule == inner_rule) continue;
+      const found_el = outer_rule.premise_in_pos(x, y);
+      const hovered_rule = outer_rule.rule_from_child(found_el);
+      if (hovered_rule != null) {
+        if (this.hovered_rule != null) this.hovered_rule.not_hovered();
+        this.hovered_rule = hovered_rule;
+        hovered_rule.set_hovered();
+        return;
+      } 
+    }
+    if (this.hovered_rule != null) this.hovered_rule.not_hovered();
+  }
+
+
+  insert_rule(x, y) { // This is not pretty, try to make better looking
+    const inner_rule = this.dragged_rule;
+    for (let outer_rule of this.rule_list) {
+      if (outer_rule == inner_rule) continue;
+      const found_el = outer_rule.premise_in_pos(x, y);
+      const hovered_rule = outer_rule.rule_from_child(found_el);
+      if (hovered_rule != null) {
+        let idx = 0;
+        if (!hovered_rule.is_leaf()) idx = hovered_rule.get_child_index(found_el);
+        hovered_rule.add_inner_rule(inner_rule, this.ctx, idx);
+        this.rule_list.splice(this.rule_list.indexOf(inner_rule), 1);
+        hovered_rule.not_hovered();
+        break;
+      }
+    }
+    if (this.hovered_rule != null) this.hovered_rule.not_hovered();
+    this.hovered_rule = null;
+  }
+
+  drop(x, y) {
+    if (this.dragged_rule == null) return;
+    this.insert_rule(x, y);
+    this.update();
     this.dragged_rule = null;
     this.drag_diff_x = null;
     this.drag_diff_y = null;
@@ -91,7 +145,7 @@ class Canvas {
     else if (key.length > 1) return;
     else this.active_text.add_char(key);
 
-    this.active_rule.update_size(this.ctx);
+    this.active_rule.update(this.ctx);
     this.update();
   }
 }
