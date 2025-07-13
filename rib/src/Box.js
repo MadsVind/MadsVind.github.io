@@ -17,7 +17,7 @@ class Box {
         this.height = height;
     }
 
-    is_within(x, y) {
+    has_within(x, y) {
         return (this.min_x < x && x < this.max_x 
              && this.min_y < y && y < this.max_y);
     }

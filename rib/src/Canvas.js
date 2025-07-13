@@ -35,6 +35,25 @@ class Canvas {
     }
   }
 
+  dbl_click(x, y) {
+    for (let rule of this.rule_list) if (rule.get_box().has_within(x, y)) return this.remove_rule_at(x, y, rule); 
+    this.add(x, y);
+  }
+
+  /**
+   * Rule at x, y in root is removed from it's parent and tangentially also the root.
+   * @param {*} x 
+   * @param {*} y 
+   */
+  remove_rule_at(x, y, root) {
+    const rule = root.get_deepest_rule(x, y);
+    if (rule != root) {
+      rule.get_parent().remove_inner_rule(rule, this.ctx); 
+      this.rule_list.push(rule);
+    }
+    this.update();
+  }
+
   add(x, y) {
     this.rule_list.push(new Rule(x, y, this.ctx));
     this.update();
@@ -46,7 +65,7 @@ class Canvas {
       const box = rule.get_box();
       if (this.debug) box.log();
 
-      if (box.is_within(x, y)) {
+      if (box.has_within(x, y)) {
         if (this.debug) console.log(`Click is within boundaries - X: ${x}, Y: ${y}`);
         this.dragged_rule = rule;
         this.drag_diff_x = x - box.get_x(); 
@@ -74,21 +93,7 @@ class Canvas {
     }
   }
 
-  hover_rule(x, y) { // This is not pretty, try to make better looking
-    const inner_rule = this.dragged_rule; 
-    for (let outer_rule of this.rule_list) {
-      if (outer_rule == inner_rule) continue;
-      outer_rule = outer_rule.has_within(x, y);
-      if (hovered_rule != null) {
-        hovered_rule.set_hovered(true);
-        return;
-      } else {
-        outer_rule.not_hovered();
-      }
-    }
-  }
-
-  hover_rule(x, y) { // This is not pretty, try to make better looking
+  hover_rule(x, y) { // This is not pretty, try to make better looking // i really hate this
     const inner_rule = this.dragged_rule; 
     for (let outer_rule of this.rule_list) {
       if (outer_rule == inner_rule) continue;
@@ -112,7 +117,9 @@ class Canvas {
       const found_el = outer_rule.premise_in_pos(x, y);
       const hovered_rule = outer_rule.rule_from_child(found_el);
       if (hovered_rule != null) {
-        hovered_rule.add_inner_rule(inner_rule, this.ctx);
+        let idx = 0;
+        if (!hovered_rule.is_leaf()) idx = hovered_rule.get_child_index(found_el);
+        hovered_rule.add_inner_rule(inner_rule, this.ctx, idx);
         this.rule_list.splice(this.rule_list.indexOf(inner_rule), 1);
         hovered_rule.not_hovered();
         break;
