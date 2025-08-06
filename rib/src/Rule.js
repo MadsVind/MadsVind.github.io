@@ -15,9 +15,9 @@ class Rule {
         y = y - height;
         this.box = new Box(x, y, width, height * 2);
 
-        this.premise_text = new Text(0, 0, width, height, STANDARD_TEXT);
+        this.premise_text = new Text(0, 0, width, height, STANDARD_TEXT, this);
         this.line = new Line(0, 0 + height + this.line_space, width);
-        this.conclussion_text = new Text(0, 0 + height, width, height, STANDARD_TEXT);
+        this.conclussion_text = new Text(0, 0 + height, width, height, STANDARD_TEXT, this);
     }
 
     set_parent(rule) {

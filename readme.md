@@ -43,7 +43,9 @@ just frigging use that parent and children know eachother
         - [X] Fix size updating
         - [X] implement dragging out rules again
     - [ ] Implement text system
-        - [ ] Implement math charecters
+        - [ ] Implement math characters
+            - [ ] Get basic latex commands if for symbols
+            - [ ] Implement latex commands with operands
         - [ ] Implement cursor
         - [ ] Implement ctrl + z and ctrl + y
         - [ ] Implement selection

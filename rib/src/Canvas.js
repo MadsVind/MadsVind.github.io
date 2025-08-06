@@ -16,6 +16,10 @@ class Canvas {
   drag_diff_y = 0;
   // Make hover event maybe?
   hovered_rule = null;
+  // Key down
+  control_down = false;
+  alt_down = false;
+  shift_down = false;
   
   constructor(id) {
     this.id = id;
@@ -35,9 +39,9 @@ class Canvas {
     }
   }
 
-  dbl_click(x, y) {
+  // this does not work
+  split_out_rule(x, y) {
     for (let rule of this.rule_list) if (rule.get_box().has_within(x, y)) return this.remove_rule_at(x, y, rule); 
-    this.add(x, y);
   }
 
   /**
@@ -59,14 +63,38 @@ class Canvas {
     this.update();
   }
 
-  click(x, y) { // This is not pretty, try to make better looking (if hell)
+  dbl_click(x, y) {
+    this.add(x, y);
+  }
+
+  click_down(x, y) { // This is not pretty, try to make better looking (if hell)
     if (this.debug) console.log(`Click X: ${x}, Y: ${y}`);
+
+    if (this.control_down && this.shift_down && this.alt_down) 
+      return;
+    else if (this.control_down && this.shift_down) 
+      return;
+    else if (this.control_down && this.shift_down)
+      return; 
+    else if (this.control_down && this.alt_down) 
+      return;
+    else if (this.control_down) 
+      { this.split_out_rule(x, y); console.log("got here"); }
+    else if (this.alt_down)   
+      return;
+    else if (this.shift_down)
+      return;
+    else
+      this.select(x, y);
+  }
+
+  select(x, y) { // This is not pretty, try to make better looking (if hell)
     for (let rule of this.rule_list) {
       const box = rule.get_box();
       if (this.debug) box.log();
 
       if (box.has_within(x, y)) {
-        if (this.debug) console.log(`Click is within boundaries - X: ${x}, Y: ${y}`);
+        if (this.debug) { console.log(`Click is within boundaries - X: ${x}, Y: ${y}`); }           
         this.dragged_rule = rule;
         this.drag_diff_x = x - box.get_x(); 
         this.drag_diff_y = y - box.get_y(); 
@@ -74,11 +102,14 @@ class Canvas {
         let text = rule.find_text(x, y);
         
         if (text != null) {
+          if (this.active_text != null) this.active_text.unactivate();
+          text.activate(x, this.ctx);
           this.active_text = text;
           this.active_rule = rule;
           break;
         }
       } else {
+        if (this.active_text != null) this.active_text.unactivate();
         this.active_text = null;
         this.active_rule = null;
       }
@@ -129,6 +160,10 @@ class Canvas {
     this.hovered_rule = null;
   }
 
+  click_up(x, y) {
+    this.drop(x, y);
+  }
+
   drop(x, y) {
     if (this.dragged_rule == null) return;
     this.insert_rule(x, y);
@@ -138,12 +173,51 @@ class Canvas {
     this.drag_diff_y = null;
   }
 
-  key_press(key) { // Not Done
+
+  key_up(key) {
+    switch(key) {
+      case "Control":
+        this.control_down = false;
+        break;
+      case "Shift":
+        this.shift_down = false;
+        break;
+      case "Alt":
+        this.alt_down = false;
+        break;
+    }
+  }
+
+  key_down(key) { // Not Done
     const text = this.active_text;
-    if (text == null) return;
-    else if (key == "Backspace") text.backspace();
-    else if (key.length > 1) return;
-    else this.active_text.add_char(key);
+    console.log("key: " + key);
+
+    switch(key) {
+      case "Control":
+        this.control_down = true;
+        break;
+      case "Shift":
+        this.shift_down = true;
+        break;
+      case "Alt":
+        this.alt_down = true;
+        break;
+    }
+
+    if (text == null) 
+      return;
+    else if (key == "Backspace") 
+      text.backspace();
+    else if (key == "Delete") 
+      text.delete()
+    else if (key == "ArrowLeft") 
+      text.cursor_left();
+    else if (key == "ArrowRight") 
+      text.cursor_right();
+    else if (key.length > 1) 
+      return;
+    else 
+      text.add_char(key); 
 
     this.active_rule.update(this.ctx);
     this.update();
