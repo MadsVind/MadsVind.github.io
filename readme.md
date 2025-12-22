@@ -1,7 +1,7 @@
 # Mads Knudsen companion site
 This Github.io is primarily meant as a companion site for my CV, illustrating some of the projects on there.
 
-
+just frigging use that parent and children know eachother
 
 ## TODO:
 - [ ] DPL
@@ -33,6 +33,30 @@ This Github.io is primarily meant as a companion site for my CV, illustrating so
         - [ ] Make method modifer system to restrict matrix sizes
     - [ ] Add error console (some methods are very specific)
     - [X] Auto select matrix 
+- [ ] Rule of Inference Builder 
+    - [X] Implement drag and drop
+        - [X] Drop for ordering 
+        - [X] Update rule hitbox
+            - [X] The highest premise takes precedence 
+        - [X] Fix text editing of higher rules
+        - [X] Fix insertion in higer rules
+        - [X] Fix size updating
+        - [X] implement dragging out rules again
+    - [ ] Implement text system
+        - [ ] Implement math characters
+            - [ ] Get basic latex commands if for symbols
+            - [ ] Implement latex commands with operands
+        - [ ] Implement cursor
+        - [ ] Implement ctrl + z and ctrl + y
+        - [ ] Implement selection
+    - [X] Stylize
+    - [ ] Make event system instead
+    - [X] Implement delete of rules
+    - [ ] Implement zoom or font size change
+    - [ ] implement output to latex
+    - [ ] Eliminate the use of FONT_SIZE
+    - [/] Make removed parent conclussion stay in original position 
+
 - [X] Fix file structure
 ### Bugs
 - [X] Matrix sizes doesn't match when changeing methods 
