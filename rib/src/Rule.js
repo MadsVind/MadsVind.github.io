@@ -206,7 +206,7 @@ class Rule {
         return this.conclussion_text;
     }
 
-    update_pos(ctx, root_height = null)  { // Works but need work 
+    update_pos(ctx, root_height = null)  { // Works, but need work 
         if (this.is_root()) root_height = this.box.get_height()
         for (let rule of this.premise_list) { rule.update_pos(ctx, root_height); }
 
@@ -244,10 +244,11 @@ class Rule {
 
     set_children_pos() { 
         let width = 0;
+
         for (let child of this.premise_list) {
             const rule_box = child.get_box();
-            rule_box.set_x(0 + width);
-            width += rule_box.get_width();
+            rule_box.set_x(width);
+            width += rule_box.get_width() + RULE_SPACE;
         }
     }
 
@@ -264,24 +265,14 @@ class Rule {
 
     get_sum_child_width() {
         let width_sum = 0;
-        for (let rule of this.premise_list) 
-            width_sum += rule.get_box().get_width();
+        const last_el_idx = this.premise_list.length-1;
+        for (let i = 0; i < last_el_idx; ++i)
+            width_sum += this.premise_list[i].get_box().get_width() + RULE_SPACE;
+
+        width_sum += this.premise_list[last_el_idx].get_box().get_width();
         return width_sum;
     }
     
-
-    // Old and deprecated doens't work for
-    // This does not work with removal again
-    // You were loved when you were used
-    update_height(height_sum) {
-        const new_height = Math.max(height_sum, this.box.get_height()); // this only works for adding, but not removal
-        if (!this.is_root()) 
-            this.parent.update_height(new_height + FONT_SIZE); // Future proof this with function which check what actual height should be added
-        else  
-            this.box.set_y(this.box.get_max_y() - new_height); // Because y grows downwards, we have update the roots min y pos when heigh change
-        this.box.set_height(new_height);
-    }
-
     update_height() {
         let new_height = this.premise_text.get_box().get_height();
         for (let rule of this.premise_list) 

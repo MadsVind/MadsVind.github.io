@@ -49,13 +49,13 @@ just frigging use that parent and children know eachother
         - [ ] Implement cursor
         - [ ] Implement ctrl + z and ctrl + y
         - [ ] Implement selection
-    - [ ] Stylize
+    - [X] Stylize
     - [ ] Make event system instead
-    - [ ] Implement delete of rules
+    - [X] Implement delete of rules
     - [ ] Implement zoom or font size change
     - [ ] implement output to latex
     - [ ] Eliminate the use of FONT_SIZE
-    - [ ] Make removed parent conclussion stay in original position 
+    - [/] Make removed parent conclussion stay in original position 
 
 - [X] Fix file structure
 ### Bugs

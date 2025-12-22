@@ -1,5 +1,3 @@
-// Can't edit lower text
-
 class Canvas {
   id = null;
   ctx = null;
@@ -39,17 +37,20 @@ class Canvas {
     }
   }
 
-  // this does not work
-  split_out_rule(x, y) {
-    for (let rule of this.rule_list) if (rule.get_box().has_within(x, y)) return this.remove_rule_at(x, y, rule); 
+  get_root_at(x, y) {
+    for (let rule of this.rule_list) 
+        if (rule.get_box().has_within(x, y)) 
+          return rule;
+    return null;
   }
-
+ 
   /**
    * Rule at x, y in root is removed from it's parent and tangentially also the root.
    * @param {*} x 
    * @param {*} y 
    */
-  remove_rule_at(x, y, root) {
+  split_out_rule(x, y) {
+    const root = this.get_root_at(x, y);
     const rule = root.get_deepest_rule(x, y);
     if (rule != root) {
       rule.get_parent().remove_inner_rule(rule, this.ctx); 
@@ -60,6 +61,12 @@ class Canvas {
 
   add(x, y) {
     this.rule_list.push(new Rule(x, y, this.ctx));
+    this.update();
+  }
+
+  delete(x, y) {
+    const root = this.get_root_at(x, y);
+    remove(this.rule_list, root);
     this.update();
   }
 
@@ -79,16 +86,20 @@ class Canvas {
     else if (this.control_down && this.alt_down) 
       return;
     else if (this.control_down) 
-      { this.split_out_rule(x, y); console.log("got here"); }
+      this.split_out_rule(x, y); 
     else if (this.alt_down)   
       return;
     else if (this.shift_down)
-      return;
+      this.delete(x, y);
     else
       this.select(x, y);
   }
 
   select(x, y) { // This is not pretty, try to make better looking (if hell)
+    if (this.active_text != null) this.active_text.unactivate();
+    this.active_text = null;
+    this.active_rule = null;
+
     for (let rule of this.rule_list) {
       const box = rule.get_box();
       if (this.debug) box.log();
@@ -96,23 +107,20 @@ class Canvas {
       if (box.has_within(x, y)) {
         if (this.debug) { console.log(`Click is within boundaries - X: ${x}, Y: ${y}`); }           
         this.dragged_rule = rule;
+        this.active_rule = rule;
         this.drag_diff_x = x - box.get_x(); 
         this.drag_diff_y = y - box.get_y(); 
 
         let text = rule.find_text(x, y);
         
-        if (text != null) {
-          if (this.active_text != null) this.active_text.unactivate();
-          text.activate(x, this.ctx);
-          this.active_text = text;
-          this.active_rule = rule;
-          break;
-        }
-      } else {
+        if (text == null) continue; 
+
         if (this.active_text != null) this.active_text.unactivate();
-        this.active_text = null;
-        this.active_rule = null;
-      }
+        text.activate(x, this.ctx);
+        this.active_text = text;
+        break;
+        
+      } 
     }
   }
 
@@ -188,8 +196,14 @@ class Canvas {
     }
   }
 
+  /**
+   * 
+   * @param {*} key is the key which has pressed while on the canvas
+   * @returns 
+   */
   key_down(key) { // Not Done
     const text = this.active_text;
+    const rule = this.active_rule;
     console.log("key: " + key);
 
     switch(key) {
@@ -204,22 +218,27 @@ class Canvas {
         break;
     }
 
-    if (text == null) 
-      return;
-    else if (key == "Backspace") 
-      text.backspace();
-    else if (key == "Delete") 
-      text.delete()
-    else if (key == "ArrowLeft") 
-      text.cursor_left();
-    else if (key == "ArrowRight") 
-      text.cursor_right();
-    else if (key.length > 1) 
-      return;
-    else 
-      text.add_char(key); 
-
-    this.active_rule.update(this.ctx);
+    if (text != null) {
+      if (key == "Backspace") 
+        text.backspace();
+      else if (key == "Delete") 
+        text.delete()
+      else if (key == "ArrowLeft") 
+        text.cursor_left();
+      else if (key == "ArrowRight") 
+        text.cursor_right();
+      else if (key.length > 1) 
+        return;
+      else 
+        text.add_char(key); 
+    } else if (rule != null) {
+      if (key == "Delete") {
+        this.rule_list.splice(this.rule_list.indexOf(rule), 1);
+        this.active_rule = null;
+      }
+    } 
+      
+    if (this.active_rule != null) this.active_rule.update(this.ctx);
     this.update();
   }
 }
