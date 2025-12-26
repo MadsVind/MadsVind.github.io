@@ -6,8 +6,6 @@ class Box {
     width = 0;
     height = 0;
 
-
-  
     constructor(x, y, width, height) {
         this.min_y = y;
         this.max_y = y + height; 

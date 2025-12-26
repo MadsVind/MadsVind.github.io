@@ -261,7 +261,7 @@ class Rule {
        const conclussion_center_x = conclussion_box.get_center().x;
        this.premise_text.get_box().set_x(premise_box.get_x() - (premise_center_x - rule_center_x));
        this.conclussion_text.get_box().set_x(conclussion_box.get_x() - (conclussion_center_x - rule_center_x));
-   }
+    }
 
     get_sum_child_width() {
         let width_sum = 0;
@@ -283,24 +283,21 @@ class Rule {
         if (this.is_root()) 
             this.box.set_y(this.box.get_max_y() - new_height); // Because y grows downwards, we have update the roots min y pos when heigh change
         this.box.set_height(new_height);
+        
         if (!this.is_root()) 
             this.parent.update_height(); // Future proof this with function which check what actual height should be added
     }
-    
 
-    add_inner_rule(rule, ctx, idx=0) { 
+    add_inner_rule(rule, idx=0) { 
         this.premise_list.splice(idx, 0, rule); 
         rule.set_parent(this);
         rule.update_height();
-        this.update(ctx);
     }
 
-    remove_inner_rule(rule, ctx) { 
-        const idx = this.premise_list.indexOf(rule);
-        this.premise_list.splice(idx, 1); 
+    remove_inner_rule(rule) { 
+        remove_from_list(this.premise_list, rule);
         rule.set_root();
         this.update_height();
-        this.update(ctx);
     }
 
     get_root() {
