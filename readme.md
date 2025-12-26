@@ -46,16 +46,18 @@ just frigging use that parent and children know eachother
         - [ ] Implement math characters
             - [ ] Get basic latex commands if for symbols
             - [ ] Implement latex commands with operands
+            - [ ] Text system controlled from events
         - [ ] Implement cursor
-        - [ ] Implement ctrl + z and ctrl + y
+        - [X] Implement ctrl + z and ctrl + y
         - [ ] Implement selection
     - [X] Stylize
-    - [ ] Make event system instead
+    - [X] Make event system instead
     - [X] Implement delete of rules
     - [ ] Implement zoom or font size change
     - [ ] implement output to latex
     - [ ] Eliminate the use of FONT_SIZE
     - [/] Make removed parent conclussion stay in original position 
+    - [ ] Seperate draw and model (How to handle box size without meassure text?).
 
 - [X] Fix file structure
 ### Bugs

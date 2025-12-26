@@ -43,6 +43,17 @@ class Text {
         this.cursor_right();
     }
 
+    // think cursor should be managed by the event
+    set_text(str) {
+        this.text = str;
+        if (this.is_word_at_cursor_command(this.cursor_idx)) this.replace_command(this.cursor_idx); 
+        this.cursor_idx = this.get_text_length();
+    }
+
+    get_text() {
+        return this.text;
+    }
+
     replace_command() {
         const start_pos = this.find_word_start();
         const end_pos = this.find_word_end();
@@ -108,7 +119,7 @@ class Text {
         this.cursor_idx = i;
     }
 
-    unactivate() {
+    deactivate() {
         this.active = false;
         this.cursor_idx = -1;
     }

@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "interactjs": "^1.10.27"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2"
   }
 }
